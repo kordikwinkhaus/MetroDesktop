@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -97,6 +98,9 @@
     <Resource Include="Images\Server.png" />
     <Resource Include="Images\SkladoveOperace.png" />
     <Resource Include="Images\SouhrnnaObjednavka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Winkhaus.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

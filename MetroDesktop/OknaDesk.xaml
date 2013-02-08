@@ -9,79 +9,87 @@
              UseLayoutRounding="True">
   <UserControl.Resources>
     <my:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
-    <Style TargetType="Image">
-      <Setter Property="Height" Value="48"/>
-      <Setter Property="Width" Value="48"/>
-      <Setter Property="Canvas.Top" Value="31"/>
-      <Setter Property="Canvas.Left" Value="36"/>
-    </Style>
-    
-    <Style TargetType="StackPanel">
-      <Setter Property="Width" Value="110"/>
-      <Setter Property="Height" Value="30"/>
-      <Setter Property="Canvas.Bottom" Value="5"/>
-      <Setter Property="Canvas.Left" Value="5"/>
-    </Style>
-    
-    <Style TargetType="TextBlock">
-      <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Setter Property="TextWrapping" Value="Wrap"/>
-      <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Setter Property="VerticalAlignment" Value="Center"/>
-      <Setter Property="TextAlignment" Value="Center"/>
-      <Setter Property="FontSize" Value="11"/>
-    </Style>
-
-    <ControlTemplate x:Key="MetroButton" TargetType="Button">
-      <Grid>
-        <Rectangle x:Name="rect" Fill="#FF003580"/>
-        <ContentPresenter/>
-      </Grid>
-      <ControlTemplate.Triggers>
-        <Trigger Property="IsMouseOver" Value="True">
-          <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
-        </Trigger>
-        <Trigger Property="Button.IsPressed" Value="True">
-          <Setter TargetName="rect" Property="RenderTransform">
-            <Setter.Value>
-              <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
-            </Setter.Value>
-          </Setter>
-          <Setter TargetName="rect" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-        </Trigger>
-      </ControlTemplate.Triggers>
-    </ControlTemplate>
-    <Style TargetType="Button">
-      <Setter Property="Width" Value="120"/>
-      <Setter Property="Height" Value="120"/>
-      <Setter Property="Foreground" Value="White"/>
-      <Setter Property="FontWeight" Value="Bold"/>
-      <Setter Property="Template" Value="{StaticResource MetroButton}"/>
-      <Setter Property="Margin" Value="5"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <EventSetter Event="Click" Handler="button_Click"/>
-    </Style>
   </UserControl.Resources>
   
   <Grid x:Name="LayoutRoot" Background="White">
     <Grid.RowDefinitions>
-      <RowDefinition />
+      <RowDefinition SharedSizeGroup="vyska" />
       <RowDefinition Height="Auto" />
-      <RowDefinition />
+      <RowDefinition SharedSizeGroup="vyska" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition />
+      <ColumnDefinition SharedSizeGroup="sirka" />
       <ColumnDefinition Width="Auto" />
-      <ColumnDefinition />
+      <ColumnDefinition SharedSizeGroup="sirka" />
     </Grid.ColumnDefinitions>
-    
+
+    <Canvas Grid.Column="2" >
+      <Image Canvas.Right="10" Canvas.Top="10" Width="199" Height="51" 
+             Source="/MetroDesktop;component/Images/Winkhaus.gif" />
+    </Canvas>
+
     <Grid Grid.Column="1" Grid.Row="1">
       <Grid.ColumnDefinitions>
         <ColumnDefinition />
+        <ColumnDefinition Width="120" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      
-      <WrapPanel MaxWidth="300">
+
+      <WrapPanel MaxWidth="{Binding CommandPanelWidth}">
+        <WrapPanel.Resources>
+          <Style TargetType="Image">
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Width" Value="48"/>
+            <Setter Property="Canvas.Top" Value="26"/>
+            <Setter Property="Canvas.Left" Value="31"/>
+          </Style>
+
+          <Style TargetType="StackPanel">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Canvas.Bottom" Value="2"/>
+            <Setter Property="Canvas.Left" Value="5"/>
+          </Style>
+
+          <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="11"/>
+          </Style>
+
+          <ControlTemplate x:Key="MetroButton" TargetType="Button">
+            <Grid>
+              <Rectangle x:Name="rect" Fill="#FF003580"/>
+              <ContentPresenter/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
+              </Trigger>
+              <Trigger Property="Button.IsPressed" Value="True">
+                <Setter TargetName="rect" Property="RenderTransform">
+                  <Setter.Value>
+                    <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                  </Setter.Value>
+                </Setter>
+                <Setter TargetName="rect" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+          <Style TargetType="Button">
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="Height" Value="110"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template" Value="{StaticResource MetroButton}"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <EventSetter Event="Click" Handler="button_Click"/>
+          </Style>
+        </WrapPanel.Resources>
         <Button x:Name="Nowa_oferta">
           <Canvas>
             <Image Source="/MetroDesktop;component/Images/NovaNabidka.png" />
@@ -98,14 +106,6 @@
             </StackPanel>
           </Canvas>
         </Button>
-        <Button x:Name="Nowe_zamowienie" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" />
-            <StackPanel>
-              <TextBlock>OBJEDNÁVKA</TextBlock>
-            </StackPanel>
-          </Canvas>
-        </Button>
         <Button x:Name="Otworz_istniejacy_dokument">
           <Canvas>
             <Image Source="/MetroDesktop;component/Images/OtevritExistujici.png" />
@@ -114,11 +114,11 @@
             </StackPanel>
           </Canvas>
         </Button>
-        <Button x:Name="Nowa_optymalizacja" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+        <Button x:Name="Nowe_zamowienie" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
           <Canvas>
-            <Image Source="/MetroDesktop;component/Images/Optimalizace.png" />
+            <Image Source="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" />
             <StackPanel>
-              <TextBlock>OPTIMALIZACE</TextBlock>
+              <TextBlock>OBJEDNÁVKA</TextBlock>
             </StackPanel>
           </Canvas>
         </Button>
@@ -130,6 +130,14 @@
             </StackPanel>
           </Canvas>
         </Button>
+        <Button x:Name="Nowa_optymalizacja" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Canvas>
+            <Image Source="/MetroDesktop;component/Images/Optimalizace.png" />
+            <StackPanel>
+              <TextBlock>OPTIMALIZACE</TextBlock>
+            </StackPanel>
+          </Canvas>
+        </Button>
         <Button x:Name="Wyslij_lub_odbierz_zlecenie" Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Canvas>
             <Image Source="/MetroDesktop;component/Images/PartnerskaKomunikace.png" />
@@ -138,7 +146,7 @@
             </StackPanel>
           </Canvas>
         </Button>
-        <Button x:Name="Magazyn" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+        <Button x:Name="Magazyn" Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Canvas>
             <Image Source="/MetroDesktop;component/Images/SkladoveOperace.png" />
             <StackPanel>
@@ -146,6 +154,63 @@
             </StackPanel>
           </Canvas>
         </Button>
+      </WrapPanel>
+
+      <WrapPanel MaxWidth="500" Grid.Column="2" Orientation="Horizontal">
+        <WrapPanel.Resources>
+          <Style TargetType="Canvas">
+            <Setter Property="Height" Value="110"/>
+            <Setter Property="Width" Value="480"/>
+            <Setter Property="Margin" Value="5"/>
+          </Style>
+          
+          <Style TargetType="Rectangle">
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="Height" Value="110"/>
+          </Style>
+          
+          <Style TargetType="Image">
+            <Setter Property="Canvas.Top" Value="31"/>
+            <Setter Property="Canvas.Left" Value="31"/>
+          </Style>
+          
+          <Style x:Key="Nadpis" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Canvas.Left" Value="120"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Canvas.Top" Value="0"/>
+          </Style>
+          
+          <Style x:Key="Hodnota" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="Canvas.Left" Value="120"/>
+            <Setter Property="Canvas.Top" Value="40"/>
+          </Style>
+        </WrapPanel.Resources>
+        
+        <Canvas>
+          <Rectangle Fill="#FFF1CB00" />
+          <Image Source="/MetroDesktop;component/Images/Document.png" />
+          <TextBlock Style="{StaticResource Nadpis}">DOKUMENTY</TextBlock>
+          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding TommorowDocs}" />
+          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding TodayDocs}" FontWeight="Bold" />
+          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="80" Text="{Binding OldDocs}" />
+        </Canvas>
+
+        <Canvas Width="{Binding SmallInfoSize}">
+          <Rectangle Fill="#FFEC9A19" />
+          <Image Source="/MetroDesktop;component/Images/Server.png" />
+          <TextBlock Style="{StaticResource Nadpis}">SERVER</TextBlock>
+          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Server}" />
+        </Canvas>
+
+        <Canvas Width="{Binding SmallInfoSize}">
+          <Rectangle Fill="#FF7DBB37" />
+          <Image Source="/MetroDesktop;component/Images/Data.png" />
+          <TextBlock Style="{StaticResource Nadpis}">DATABÁZE</TextBlock>
+          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Database}" />
+          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding Version}" />
+        </Canvas>
       </WrapPanel>
     </Grid>
   </Grid>
