@@ -1,0 +1,17 @@
+*.sln
+*.sln.recipe
+*.suo
+*/bin
+*/bin/*
+*/obj
+*/obj/*
+TestResults/*
+*/TestResults/*
+*/coverage.xml
+*/Coverage.Log
+*/Coverage.xsl
+*/opencover.xml
+*/Name
+*.vsmdi
+Thumbs.db
+*/CoverageReports/*
