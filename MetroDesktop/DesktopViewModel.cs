@@ -10,10 +10,17 @@ namespace MetroDesktop
 
         public DesktopViewModel(Dictionary<string, string> data)
         {
+            _connstring = data["ConnectionString"];
+
+            this.Server = "n/a";
+            this.Database = "n/a";
+            this.OldDocs = "Počet dokumentů po termínu realizace: n/a";
+            this.TodayDocs = "Počet dokumentů s dnešním datem realizace: n/a";
+            this.TomorrowDocs = "Počet dokumentů se zítřejším datem realizace: n/a";
+
             this.Version = data["Version"];
             this.SmallInfoSize = 480;
             this.CommandPanelWidth = 360;
-            _connstring = data["ConnectionString"]; 
             
             LoadDocsInfo();
 
@@ -50,6 +57,10 @@ namespace MetroDesktop
                     conn.Open();
 
                     this.Server = conn.DataSource;
+                    if (this.Server == ".")
+                    {
+                        this.Server = "Lokální";
+                    }
                     this.Database = conn.Database;
 
                     string sql = @"DECLARE @d datetime
@@ -68,28 +79,21 @@ SELECT COUNT(*) AS Liczba FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
                         dr.Read();
                         this.TodayDocs = "Počet dokumentů s dnešním datem realizace: " + dr.GetInt32(0);
                         dr.Read();
-                        this.TommorowDocs = "Počet dokumentů se zítřejším datem realizace: " + dr.GetInt32(0);
+                        this.TomorrowDocs = "Počet dokumentů se zítřejším datem realizace: " + dr.GetInt32(0);
                     }
 
-                    using (OleDbCommand cmd = new OleDbCommand("select db_id('magazyn')", conn))
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT db_id('magazyn')", conn))
                     {
                         this.ShowStoreButton = cmd.ExecuteScalar() != DBNull.Value;
                     }
                 }
             }
-            catch
-            {
-                this.Server = "n/a";
-                this.Database = "n/a";
-                this.OldDocs = "Počet dokumentů po termínu realizace: n/a";
-                this.TodayDocs = "Počet dokumentů s dnešním datem realizace: n/a";
-                this.TommorowDocs = "Počet dokumentů se zítřejším datem realizace: n/a";
-            }
+            catch { }
         }
 
         private void SetupTwoRowLayout()
         {
-            this.SmallInfoSize = 230;
+            this.SmallInfoSize = 235;
         }
 
         public bool ShowDealerCommunicationButton { get; private set; }
@@ -108,7 +112,7 @@ SELECT COUNT(*) AS Liczba FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
 
         public int SmallInfoSize { get; private set; }
 
-        public string TommorowDocs { get; private set; }
+        public string TomorrowDocs { get; private set; }
         public string TodayDocs { get; private set; }
         public string OldDocs { get; private set; }
     }

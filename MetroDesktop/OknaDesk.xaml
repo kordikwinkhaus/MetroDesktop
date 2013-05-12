@@ -35,7 +35,7 @@
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
-      <WrapPanel MaxWidth="{Binding CommandPanelWidth}">
+      <WrapPanel MaxWidth="{Binding CommandPanelWidth, FallbackValue=360}">
         <WrapPanel.Resources>
           <Style TargetType="Image">
             <Setter Property="Height" Value="48"/>
@@ -47,7 +47,7 @@
           <Style TargetType="StackPanel">
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Canvas.Bottom" Value="2"/>
+            <Setter Property="Canvas.Bottom" Value="0"/>
             <Setter Property="Canvas.Left" Value="5"/>
           </Style>
 
@@ -69,13 +69,13 @@
               <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
               </Trigger>
-              <Trigger Property="Button.IsPressed" Value="True">
-                <Setter TargetName="rect" Property="RenderTransform">
+              <Trigger Property="IsPressed" Value="True">
+                <Setter Property="RenderTransform">
                   <Setter.Value>
-                    <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                    <ScaleTransform ScaleX="0.96" ScaleY="0.96"/>
                   </Setter.Value>
                 </Setter>
-                <Setter TargetName="rect" Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -109,8 +109,8 @@
         <Button x:Name="Otworz_istniejacy_dokument">
           <Canvas>
             <Image Source="/MetroDesktop;component/Images/OtevritExistujici.png" />
-            <StackPanel>
-              <TextBlock>OTEVŘÍT EXISTUJÍCÍ DOKUMENT</TextBlock>
+            <StackPanel Canvas.Left="2" Width="106">
+              <TextBlock>EXISTUJÍCÍ DOKUMENTY</TextBlock>
             </StackPanel>
           </Canvas>
         </Button>
@@ -162,6 +162,9 @@
             <Setter Property="Height" Value="110"/>
             <Setter Property="Width" Value="480"/>
             <Setter Property="Margin" Value="5"/>
+            <!--
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            -->
           </Style>
           
           <Style TargetType="Rectangle">
@@ -176,15 +179,17 @@
           
           <Style x:Key="Nadpis" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Canvas.Left" Value="120"/>
+            <Setter Property="Canvas.Left" Value="118"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Canvas.Top" Value="0"/>
           </Style>
           
           <Style x:Key="Hodnota" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Canvas.Left" Value="120"/>
+            <Setter Property="Canvas.Left" Value="118"/>
             <Setter Property="Canvas.Top" Value="40"/>
+            <Setter Property="FontSize" Value="11"/>
+            
           </Style>
         </WrapPanel.Resources>
         
@@ -192,24 +197,24 @@
           <Rectangle Fill="#FFF1CB00" />
           <Image Source="/MetroDesktop;component/Images/Document.png" />
           <TextBlock Style="{StaticResource Nadpis}">DOKUMENTY</TextBlock>
-          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding TommorowDocs}" />
-          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding TodayDocs}" FontWeight="Bold" />
-          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="80" Text="{Binding OldDocs}" />
+          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding TomorrowDocs, FallbackValue=Tomorrow}" />
+          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding TodayDocs, FallbackValue=Today}" FontWeight="Bold" />
+          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="80" Text="{Binding OldDocs, FallbackValue=Old}" />
         </Canvas>
 
-        <Canvas Width="{Binding SmallInfoSize}">
+        <Canvas Width="{Binding SmallInfoSize, FallbackValue=480}">
           <Rectangle Fill="#FFEC9A19" />
           <Image Source="/MetroDesktop;component/Images/Server.png" />
           <TextBlock Style="{StaticResource Nadpis}">SERVER</TextBlock>
-          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Server}" />
+          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Server, FallbackValue=localhost}" />
         </Canvas>
 
-        <Canvas Width="{Binding SmallInfoSize}">
+        <Canvas Width="{Binding SmallInfoSize, FallbackValue=480}">
           <Rectangle Fill="#FF7DBB37" />
           <Image Source="/MetroDesktop;component/Images/Data.png" />
           <TextBlock Style="{StaticResource Nadpis}">DATABÁZE</TextBlock>
-          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Database}" />
-          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding Version}" />
+          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Database, FallbackValue=wh_demo}" />
+          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding Version, FallbackValue=1.2.3.4}" />
         </Canvas>
       </WrapPanel>
     </Grid>
