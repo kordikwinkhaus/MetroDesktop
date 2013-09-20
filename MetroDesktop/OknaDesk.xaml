@@ -37,34 +37,20 @@
 
       <WrapPanel MaxWidth="{Binding CommandPanelWidth, FallbackValue=360}">
         <WrapPanel.Resources>
-          <Style TargetType="Image">
-            <Setter Property="Height" Value="48"/>
-            <Setter Property="Width" Value="48"/>
-            <Setter Property="Canvas.Top" Value="26"/>
-            <Setter Property="Canvas.Left" Value="31"/>
-          </Style>
-
-          <Style TargetType="StackPanel">
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Canvas.Bottom" Value="0"/>
-            <Setter Property="Canvas.Left" Value="5"/>
-          </Style>
-
-          <Style TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="11"/>
-          </Style>
-
           <ControlTemplate x:Key="MetroButton" TargetType="Button">
-            <Grid>
-              <Rectangle x:Name="rect" Fill="#FF003580"/>
-              <ContentPresenter/>
-            </Grid>
+            <Canvas>
+              <Rectangle x:Name="rect" Fill="#FF003580" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+              <ContentPresenter Canvas.Left="31" Canvas.Top="26" Height="48" Width="48"/>
+              <StackPanel Width="100" Height="30" Canvas.Bottom="0" Canvas.Left="5">
+                <TextBlock Text="{TemplateBinding Tag}"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           FontSize="11"
+                           />
+              </StackPanel>
+            </Canvas>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
@@ -90,69 +76,29 @@
             <EventSetter Event="Click" Handler="button_Click"/>
           </Style>
         </WrapPanel.Resources>
-        <Button x:Name="Nowa_oferta">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/NovaNabidka.png" />
-            <StackPanel>
-              <TextBlock>NOVÁ NABÍDKA</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Nowa_oferta" Tag="NOVÁ NABÍDKA">
+          <Image Source="/MetroDesktop;component/Images/NovaNabidka.png" />
         </Button>
-        <Button x:Name="Nowe_zlecenie_produkcyjne">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/NovaZakazka.png" />
-            <StackPanel>
-              <TextBlock>NOVÁ ZAKÁZKA</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Nowe_zlecenie_produkcyjne" Tag="NOVÁ ZAKÁZKA">
+          <Image Source="/MetroDesktop;component/Images/NovaZakazka.png" />
         </Button>
-        <Button x:Name="Otworz_istniejacy_dokument">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/OtevritExistujici.png" />
-            <StackPanel Canvas.Left="2" Width="106">
-              <TextBlock>EXISTUJÍCÍ DOKUMENTY</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Otworz_istniejacy_dokument" Tag="EXISTUJÍCÍ DOKUMENTY">
+          <Image Source="/MetroDesktop;component/Images/OtevritExistujici.png" />
         </Button>
-        <Button x:Name="Nowe_zamowienie" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" />
-            <StackPanel>
-              <TextBlock>OBJEDNÁVKA</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Nowe_zamowienie" Tag="OBJEDNÁVKA" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Image Source="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" />
         </Button>
-        <Button x:Name="Zamowienie_zbiorcze" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/SouhrnnaObjednavka.png" />
-            <StackPanel>
-              <TextBlock>SOUHRNNÁ OBJEDNÁVKA</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Zamowienie_zbiorcze" Tag="SOUHRNNÁ OBJEDNÁVKA" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Image Source="/MetroDesktop;component/Images/SouhrnnaObjednavka.png" />
         </Button>
-        <Button x:Name="Nowa_optymalizacja" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/Optimalizace.png" />
-            <StackPanel>
-              <TextBlock>OPTIMALIZACE</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Nowa_optymalizacja" Tag="OPTIMALIZACE" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Image Source="/MetroDesktop;component/Images/Optimalizace.png" />
         </Button>
-        <Button x:Name="Wyslij_lub_odbierz_zlecenie" Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/PartnerskaKomunikace.png" />
-            <StackPanel>
-              <TextBlock>PARTNERSKÁ KOMUNIKACE</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Wyslij_lub_odbierz_zlecenie" Tag="PARTNERSKÁ KOMUNIKACE" Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Image Source="/MetroDesktop;component/Images/PartnerskaKomunikace.png" />
         </Button>
-        <Button x:Name="Magazyn" Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Canvas>
-            <Image Source="/MetroDesktop;component/Images/SkladoveOperace.png" />
-            <StackPanel>
-              <TextBlock>SKLADOVÉ OPERACE</TextBlock>
-            </StackPanel>
-          </Canvas>
+        <Button x:Name="Magazyn" Tag="SKLADOVÉ OPERACE" Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Image Source="/MetroDesktop;component/Images/SkladoveOperace.png" />
         </Button>
       </WrapPanel>
 
