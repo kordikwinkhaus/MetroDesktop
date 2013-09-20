@@ -22,6 +22,15 @@ namespace WHDesktops
             MetroDesktop.DesktopViewModel viewmodel = new MetroDesktop.DesktopViewModel(data);
             this.DataContext = viewmodel;
 
+            Nowa_oferta.Tag = viewmodel.GetResource("Offer").ToUpper();
+            Nowe_zlecenie_produkcyjne.Tag = viewmodel.GetResource("Commission").ToUpper();
+            Otworz_istniejacy_dokument.Tag = viewmodel.GetResource("ExistingDocuments", "Existing Documents").ToUpper();
+            Nowe_zamowienie.Tag = viewmodel.GetResource("Order").ToUpper();
+            Zamowienie_zbiorcze.Tag = viewmodel.GetResource("SummaryOrder", "Summary Order").ToUpper();
+            Nowa_optymalizacja.Tag = viewmodel.GetResource("Optimalization").ToUpper();
+            Wyslij_lub_odbierz_zlecenie.Tag = viewmodel.GetResource("DealersCommunication", "Dealers Communication").ToUpper();
+            Magazyn.Tag = viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
+
             lblDocuments.Text = viewmodel.GetResource("Documents").ToUpper();
             lblTomorrowDocs.Text = viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
             lblTodayDocs.Text = viewmodel.GetResource("TodayDocuments", "Documents with today's production date:");

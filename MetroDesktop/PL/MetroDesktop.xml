@@ -8,11 +8,11 @@
   <resource key="TomorrowDocuments" value="Dokumentów z jutrzejszą datą realizacji:" />
   <resource key="Offer" value="Nowa oferta" />
   <resource key="Commission" value="Nowe zlecenie" />
-  <resource key="ExistingDocuments" value="Otwórz istniejący dokument" />
+  <resource key="ExistingDocuments" value="Istniejący dokumenty" />
   <resource key="Order" value="Nowe zamówienie" />
   <resource key="SummaryOrder" value="Zamówienie zbiorcze" />
   <resource key="Optimalization" value="Nowa optymalizacja" />
-  <resource key="DealersCommunication" value2="Wyślij / odbierz" value="Wyslij lub odbierz zlecenie" />
+  <resource key="DealersCommunication" value="Wyslij lub odbierz zlecenie" />
   <resource key="StoreModule" value="Magazyn" />
   <resource key="Local" value="Lokalny" />
 </resources>

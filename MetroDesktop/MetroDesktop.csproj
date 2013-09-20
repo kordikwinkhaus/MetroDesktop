@@ -104,10 +104,14 @@
     <Resource Include="Images\Winkhaus.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CS\MetroDesktop.xml" />
+    <Resource Include="CS\MetroDesktop.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="PL\MetroDesktop.xml" />
+    <Resource Include="PL\MetroDesktop.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
