@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanVisibilityConverter.cs" />
+    <Compile Include="ResourceReader.cs" />
     <Page Include="OknaDesk.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Winkhaus.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="CS\MetroDesktop.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="PL\MetroDesktop.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

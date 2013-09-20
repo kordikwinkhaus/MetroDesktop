@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <resource key="Documents" value="Dokumenty" />
+  <resource key="Server" value="Server" />
+  <resource key="Database" value="Databáze" />
+  <resource key="OldDocuments" value="Počet dokumentů po termínu realizace:" />
+  <resource key="TodayDocuments" value="Počet dokumentů s dnešním datem realizace:" />
+  <resource key="TomorrowDocuments" value="Počet dokumentů se zítřejším datem realizace:" />
+  <resource key="Offer" value="Nová nabídka" />
+  <resource key="Commission" value="Nová zakázka" />
+  <resource key="ExistingDocuments" value="Existující dokumenty" />
+  <resource key="Order" value="Objednávka" />
+  <resource key="SummaryOrder" value="Sourhnná objednávka" />
+  <resource key="Optimalization" value="Optimalizace" />
+  <resource key="DealersCommunication" value="Partnerská komunikace" />
+  <resource key="StoreModule" value="Skladové operace" />
+  <resource key="Local" value="Lokální" />
+</resources>

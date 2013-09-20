@@ -162,9 +162,6 @@
             <Setter Property="Height" Value="110"/>
             <Setter Property="Width" Value="480"/>
             <Setter Property="Margin" Value="5"/>
-            <!--
-            <Setter Property="Background" Value="WhiteSmoke"/>
-            -->
           </Style>
           
           <Style TargetType="Rectangle">
@@ -184,35 +181,57 @@
             <Setter Property="Canvas.Top" Value="0"/>
           </Style>
           
-          <Style x:Key="Hodnota" TargetType="TextBlock">
+          <Style x:Key="HodnotaBase" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+          </Style>
+
+          <Style x:Key="Hodnota" BasedOn="{StaticResource HodnotaBase}" TargetType="TextBlock">
             <Setter Property="Canvas.Left" Value="118"/>
             <Setter Property="Canvas.Top" Value="40"/>
-            <Setter Property="FontSize" Value="11"/>
-            
           </Style>
         </WrapPanel.Resources>
         
         <Canvas>
+          <Canvas.Resources>
+            <Style TargetType="StackPanel">
+              <Setter Property="Orientation" Value="Horizontal"/>
+              <Setter Property="Canvas.Left" Value="118" />
+            </Style>
+          </Canvas.Resources>
+          
           <Rectangle Fill="#FFF1CB00" />
           <Image Source="/MetroDesktop;component/Images/Document.png" />
-          <TextBlock Style="{StaticResource Nadpis}">DOKUMENTY</TextBlock>
-          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding TomorrowDocs, FallbackValue=Tomorrow}" />
-          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding TodayDocs, FallbackValue=Today}" FontWeight="Bold" />
-          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="80" Text="{Binding OldDocs, FallbackValue=Old}" />
+          <TextBlock x:Name="lblDocuments" Style="{StaticResource Nadpis}">DOCUMENTS</TextBlock>
+          
+          <StackPanel Canvas.Top="40">
+            <TextBlock x:Name="lblTomorrowDocs" Style="{StaticResource HodnotaBase}">Tomorrow:</TextBlock>
+            <TextBlock Style="{StaticResource HodnotaBase}" Text="{Binding TomorrowDocs, FallbackValue=12}" />
+          </StackPanel>
+
+          <StackPanel Canvas.Top="60" TextBlock.FontWeight="Bold">
+            <TextBlock x:Name="lblTodayDocs" Style="{StaticResource HodnotaBase}">Today:</TextBlock>
+            <TextBlock Style="{StaticResource HodnotaBase}" Text="{Binding TodayDocs, FallbackValue=34}" />
+          </StackPanel>
+
+          <StackPanel Canvas.Top="80">
+            <TextBlock x:Name="lblOldDocs" Style="{StaticResource HodnotaBase}">Old:</TextBlock>
+            <TextBlock Style="{StaticResource HodnotaBase}" Text="{Binding OldDocs, FallbackValue=567}" />
+          </StackPanel>
         </Canvas>
 
         <Canvas Width="{Binding SmallInfoSize, FallbackValue=480}">
           <Rectangle Fill="#FFEC9A19" />
           <Image Source="/MetroDesktop;component/Images/Server.png" />
-          <TextBlock Style="{StaticResource Nadpis}">SERVER</TextBlock>
+          <TextBlock x:Name="lblServer" Style="{StaticResource Nadpis}">SERVER</TextBlock>
           <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Server, FallbackValue=localhost}" />
         </Canvas>
 
         <Canvas Width="{Binding SmallInfoSize, FallbackValue=480}">
           <Rectangle Fill="#FF7DBB37" />
           <Image Source="/MetroDesktop;component/Images/Data.png" />
-          <TextBlock Style="{StaticResource Nadpis}">DATABÁZE</TextBlock>
+          <TextBlock x:Name="lblDatabase" Style="{StaticResource Nadpis}">DATABASE</TextBlock>
           <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Database, FallbackValue=wh_demo}" />
           <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding Version, FallbackValue=1.2.3.4}" />
         </Canvas>

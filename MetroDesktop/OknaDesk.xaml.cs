@@ -21,6 +21,14 @@ namespace WHDesktops
         {
             MetroDesktop.DesktopViewModel viewmodel = new MetroDesktop.DesktopViewModel(data);
             this.DataContext = viewmodel;
+
+            lblDocuments.Text = viewmodel.GetResource("Documents").ToUpper();
+            lblTomorrowDocs.Text = viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
+            lblTodayDocs.Text = viewmodel.GetResource("TodayDocuments", "Documents with today's production date:");
+            lblOldDocs.Text = viewmodel.GetResource("OldDocuments", "Documents after production date:");
+
+            lblServer.Text = viewmodel.GetResource("Server").ToUpper();
+            lblDatabase.Text = viewmodel.GetResource("Database").ToUpper();
         }
 
         public void OnActivate()

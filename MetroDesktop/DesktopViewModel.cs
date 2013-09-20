@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.OleDb;
 
 namespace MetroDesktop
 {
-    public class DesktopViewModel
+    public class DesktopViewModel : INotifyPropertyChanged
     {
         private string _connstring;
+        private Dictionary<string, string> _resources;
 
         public DesktopViewModel(Dictionary<string, string> data)
         {
             _connstring = data["ConnectionString"];
+            _resources = ResourceReader.ReadResources(data["AppPath"], data["Language"]);
 
             this.Server = "n/a";
             this.Database = "n/a";
-            this.OldDocs = "Počet dokumentů po termínu realizace: n/a";
-            this.TodayDocs = "Počet dokumentů s dnešním datem realizace: n/a";
-            this.TomorrowDocs = "Počet dokumentů se zítřejším datem realizace: n/a";
 
             this.Version = data["Version"];
             this.SmallInfoSize = 480;
             this.CommandPanelWidth = 360;
             
-            LoadDocsInfo();
+            LoadDocsInfo(firstRun: true);
 
             switch (data["ProgramMode"])
             {
@@ -48,7 +48,19 @@ namespace MetroDesktop
             }
         }
 
-        private void LoadDocsInfo()
+        internal string GetResource(string key, string defaultResource = null)
+        {
+            if (_resources.ContainsKey(key))
+            {
+                return _resources[key];
+            }
+            else
+            {
+                return defaultResource ?? key;
+            }
+        }
+
+        private void LoadDocsInfo(bool firstRun = false)
         {
             try
             {
@@ -56,35 +68,38 @@ namespace MetroDesktop
                 {
                     conn.Open();
 
-                    this.Server = conn.DataSource;
-                    if (this.Server == ".")
-                    {
-                        this.Server = "Lokální";
-                    }
-                    this.Database = conn.Database;
-
                     string sql = @"DECLARE @d datetime
 SET @d = CAST(FLOOR(CAST(GETDATE() as float)) as datetime)
-SELECT COUNT(*) AS Liczba FROM oferty WHERE realizacja < @d AND do_arch=0 
+SELECT COUNT(*) AS DocsCount FROM oferty WHERE realizacja<@d AND do_arch=0 
 UNION ALL
-SELECT COUNT(*) AS Liczba FROM oferty WHERE realizacja=@d AND do_arch=0 
+SELECT COUNT(*) AS DocsCount FROM oferty WHERE realizacja=@d AND do_arch=0 
 UNION ALL 
-SELECT COUNT(*) AS Liczba FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
+SELECT COUNT(*) AS DocsCount FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
 
                     using (OleDbCommand cmd = new OleDbCommand(sql, conn))
                     using (OleDbDataReader dr = cmd.ExecuteReader())
                     {
                         dr.Read();
-                        this.OldDocs = "Počet dokumentů po termínu realizace: " + dr.GetInt32(0);
+                        this.OldDocs = dr.GetInt32(0);
                         dr.Read();
-                        this.TodayDocs = "Počet dokumentů s dnešním datem realizace: " + dr.GetInt32(0);
+                        this.TodayDocs = dr.GetInt32(0);
                         dr.Read();
-                        this.TomorrowDocs = "Počet dokumentů se zítřejším datem realizace: " + dr.GetInt32(0);
+                        this.TomorrowDocs = dr.GetInt32(0);
                     }
 
-                    using (OleDbCommand cmd = new OleDbCommand("SELECT db_id('magazyn')", conn))
+                    if (firstRun)
                     {
-                        this.ShowStoreButton = cmd.ExecuteScalar() != DBNull.Value;
+                        this.Server = conn.DataSource;
+                        if (this.Server == ".")
+                        {
+                            this.Server = GetResource("Local");
+                        }
+                        this.Database = conn.Database;
+
+                        using (OleDbCommand cmd = new OleDbCommand("SELECT db_id('Magazyn')", conn))
+                        {
+                            this.ShowStoreButton = cmd.ExecuteScalar() != DBNull.Value;
+                        }
                     }
                 }
             }
@@ -112,8 +127,49 @@ SELECT COUNT(*) AS Liczba FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
 
         public int SmallInfoSize { get; private set; }
 
-        public string TomorrowDocs { get; private set; }
-        public string TodayDocs { get; private set; }
-        public string OldDocs { get; private set; }
+        private int _TomorrowDocs;
+        private int _TodayDocs;
+        private int _OldDocs;
+        public int TomorrowDocs 
+        {
+            get { return _TomorrowDocs; }
+            private set
+            {
+                _TomorrowDocs = value;
+                OnPropertyChanged("TomorrowDocs");
+            }
+        }
+        public int TodayDocs 
+        {
+            get { return _TodayDocs; }
+            private set
+            {
+                _TodayDocs = value;
+                OnPropertyChanged("TodayDocs");
+            }
+        }
+        public int OldDocs 
+        {
+            get { return _OldDocs; }
+            private set
+            {
+                _OldDocs = value;
+                OnPropertyChanged("OldDocs");
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
 }

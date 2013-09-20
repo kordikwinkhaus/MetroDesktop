@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <resource key="Documents" value="Dokumenty" />
+  <resource key="Server" value="Serwer" />
+  <resource key="Database" value="Baza danych" />
+  <resource key="OldDocuments" value="Dokumentów z przeterminowaną datą realizacji:" />
+  <resource key="TodayDocuments" value="Dokumentów z dzisiejszą datą realizacji:" />
+  <resource key="TomorrowDocuments" value="Dokumentów z jutrzejszą datą realizacji:" />
+  <resource key="Offer" value="Nowa oferta" />
+  <resource key="Commission" value="Nowe zlecenie" />
+  <resource key="ExistingDocuments" value="Otwórz istniejący dokument" />
+  <resource key="Order" value="Nowe zamówienie" />
+  <resource key="SummaryOrder" value="Zamówienie zbiorcze" />
+  <resource key="Optimalization" value="Nowa optymalizacja" />
+  <resource key="DealersCommunication" value2="Wyślij / odbierz" value="Wyslij lub odbierz zlecenie" />
+  <resource key="StoreModule" value="Magazyn" />
+  <resource key="Local" value="Lokalny" />
+</resources>
