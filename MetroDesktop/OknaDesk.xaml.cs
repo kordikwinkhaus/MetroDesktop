@@ -38,6 +38,8 @@ namespace WHDesktops
 
             lblServer.Text = viewmodel.GetResource("Server").ToUpper();
             lblDatabase.Text = viewmodel.GetResource("Database").ToUpper();
+
+            lblError.Text = viewmodel.GetResource("Error", string.Empty);
         }
 
         public void OnActivate()

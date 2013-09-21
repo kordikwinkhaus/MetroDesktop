@@ -18,16 +18,16 @@ namespace MetroDesktop
             }
             catch (FileNotFoundException)
             {
-                string msg = string.Format("MetroDesktop: resource file '{0}' does not exist.", filename);
-                throw new Exception(msg);
+                string msg = string.Format("Resource file '{0}' does not exist.", filename);
+                resources.Add("Error", msg);
             }
             catch (Exception ex)
             {
-                string msg = string.Format("MetroDesktop: cannot read resources from file '{0}'.\r\n{1}: {2}",
+                string msg = string.Format("Cannot read resources from file '{0}'.\r\n{1}: {2}",
                     filename,
                     ex.GetType().ToString(),
                     ex.Message);
-                throw new Exception(msg);
+                resources.Add("Error", msg);
             }
 
             return resources;

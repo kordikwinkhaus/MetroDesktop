@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.OleDb;
+using System.Windows.Threading;
 
 namespace MetroDesktop
 {
     public class DesktopViewModel : INotifyPropertyChanged
     {
-        private string _connstring;
-        private Dictionary<string, string> _resources;
+        private readonly string _connstring;
+        private readonly Dictionary<string, string> _resources;
+        private readonly DispatcherTimer _timer;
 
         public DesktopViewModel(Dictionary<string, string> data)
         {
@@ -46,6 +48,20 @@ namespace MetroDesktop
                     this.ShowDealerCommunicationButton = true;
                     break;
             }
+
+            _timer = new DispatcherTimer();
+#if (DEBUG)
+            _timer.Interval = new TimeSpan(0, 0, 5);
+#else
+            _timer.Interval = new TimeSpan(0, 2, 0);
+#endif
+            _timer.Tick += new EventHandler(timer_Tick);
+            _timer.Start();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            LoadDocsInfo(firstRun: false);
         }
 
         internal string GetResource(string key, string defaultResource = null)

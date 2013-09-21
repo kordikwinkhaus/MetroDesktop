@@ -27,6 +27,11 @@
       <Image Canvas.Right="10" Canvas.Top="10" Width="199" Height="51" 
              Source="/MetroDesktop;component/Images/Winkhaus.gif" />
     </Canvas>
+    
+    <TextBlock x:Name="lblError" Grid.Column="1" FontSize="14" Foreground="Red" FontWeight="Bold"
+               VerticalAlignment="Center" HorizontalAlignment="Left"
+               Margin="5"
+               />
 
     <Grid Grid.Column="1" Grid.Row="1">
       <Grid.ColumnDefinitions>
