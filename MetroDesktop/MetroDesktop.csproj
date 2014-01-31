@@ -43,8 +43,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UserExtContract, Version=1.0.0.6, Culture=neutral, PublicKeyToken=d6cae255a7a68871, processorArchitecture=x86">
-      <HintPath>C:\WHOkna4739\UserExtContract.dll</HintPath>
+    <Reference Include="UserExtContract, Version=9.9.9.9, Culture=neutral, PublicKeyToken=d6cae255a7a68871, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\UserExt\UserExtContract.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
