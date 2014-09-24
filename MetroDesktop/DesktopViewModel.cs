@@ -29,9 +29,10 @@ namespace MetroDesktop
             this.CommandPanelWidth = 360;
             
             LoadDocsInfo(firstRun: true);
+            this.ShowToolsButton = System.IO.File.Exists(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\tools.exe");
 
             this.Mode = Convert.ToInt32(data["ProgramMode"]);
-            int countOfButtons = 1; // open existing
+            int countOfButtons = 1; // open existing doc
             if (this.ShowOfferButton) countOfButtons++;
             if (this.ShowCommissionButton) countOfButtons++;
             if (this.ShowOrderButton) countOfButtons++;
@@ -39,6 +40,7 @@ namespace MetroDesktop
             if (this.ShowOptimalizationButton) countOfButtons++;
             if (this.ShowDealerCommunicationButton) countOfButtons++;
             if (this.ShowStoreButton) countOfButtons++;
+            if (this.ShowToolsButton) countOfButtons++;
 
             if (countOfButtons <= 6)
             {
@@ -49,7 +51,6 @@ namespace MetroDesktop
                 this.CommandPanelWidth = 240;
             }
 
-            this.ShowToolsButton = System.IO.File.Exists(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\tools.exe");
             _timer = new DispatcherTimer();
 #if (DEBUG)
             _timer.Interval = new TimeSpan(0, 0, 5);
@@ -177,7 +178,6 @@ db_id('Magazyn') AS Store";
             private set { _showAggrOrderButton = value; }
         }
 
-        public bool ShowToolsButton { get; private set; }
         private bool _showOptimalizationButton;
         public bool ShowOptimalizationButton 
         {
@@ -198,6 +198,8 @@ db_id('Magazyn') AS Store";
             get { return this.Mode != DEALER && _showStoreButton; }
             private set { _showStoreButton = value; }
         }
+
+        public bool ShowToolsButton { get; private set; }
 
         public string Version { get; private set; }
 

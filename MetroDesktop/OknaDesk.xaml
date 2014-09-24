@@ -70,7 +70,8 @@
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
-          <Style TargetType="Button">
+          
+          <Style x:Key="BlueButton" TargetType="Button">
             <Setter Property="Width" Value="110"/>
             <Setter Property="Height" Value="110"/>
             <Setter Property="Foreground" Value="White"/>
@@ -78,25 +79,28 @@
             <Setter Property="Template" Value="{StaticResource MetroButton}"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Cursor" Value="Hand"/>
+          </Style>
+
+          <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
             <EventSetter Event="Click" Handler="button_Click"/>
           </Style>
         </WrapPanel.Resources>
-        <Button x:Name="Nowa_oferta" Tag="NOVÁ NABÍDKA">
+        <Button x:Name="Nowa_oferta" Tag="NOVÁ NABÍDKA" Visibility="{Binding ShowOfferButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/NovaNabidka.png" />
         </Button>
-        <Button x:Name="Nowe_zlecenie_produkcyjne" Tag="NOVÁ ZAKÁZKA">
+        <Button x:Name="Nowe_zlecenie_produkcyjne" Tag="NOVÁ ZAKÁZKA" Visibility="{Binding ShowCommissionButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/NovaZakazka.png" />
         </Button>
         <Button x:Name="Otworz_istniejacy_dokument" Tag="EXISTUJÍCÍ DOKUMENTY">
           <Image Source="/MetroDesktop;component/Images/OtevritExistujici.png" />
         </Button>
-        <Button x:Name="Nowe_zamowienie" Tag="OBJEDNÁVKA" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+        <Button x:Name="Nowe_zamowienie" Tag="OBJEDNÁVKA" Visibility="{Binding ShowOrderButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" />
         </Button>
-        <Button x:Name="Zamowienie_zbiorcze" Tag="SOUHRNNÁ OBJEDNÁVKA" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+        <Button x:Name="Zamowienie_zbiorcze" Tag="SOUHRNNÁ OBJEDNÁVKA" Visibility="{Binding ShowAggrOrderButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/SouhrnnaObjednavka.png" />
         </Button>
-        <Button x:Name="Nowa_optymalizacja" Tag="OPTIMALIZACE" Visibility="{Binding ShowProducerButtons, Converter={StaticResource BooleanVisibilityConverter}}">
+        <Button x:Name="Nowa_optymalizacja" Tag="OPTIMALIZACE" Visibility="{Binding ShowOptimalizationButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/Optimalizace.png" />
         </Button>
         <Button x:Name="Wyslij_lub_odbierz_zlecenie" Tag="PARTNERSKÁ KOMUNIKACE" Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}">
@@ -105,7 +109,7 @@
         <Button x:Name="Magazyn" Tag="SKLADOVÉ OPERACE" Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/SkladoveOperace.png" />
         </Button>
-        <Button x:Name="Tools" Tag="TOOLS" Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}">
+        <Button Style="{StaticResource BlueButton}" x:Name="Tools" Tag="TOOLS" Click="Tools_Click" Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/Tools.png" />
         </Button>
       </WrapPanel>

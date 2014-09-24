@@ -33,6 +33,7 @@ namespace WHDesktops
             Nowa_optymalizacja.Tag = viewmodel.GetResource("Optimalization").ToUpper();
             Wyslij_lub_odbierz_zlecenie.Tag = viewmodel.GetResource("DealersCommunication", "Dealers Communication").ToUpper();
             Magazyn.Tag = viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
+            Tools.Tag = viewmodel.GetResource("Tools").ToUpper();
 
             lblDocuments.Text = viewmodel.GetResource("Documents").ToUpper();
             lblTomorrowDocs.Text = viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
@@ -79,25 +80,24 @@ namespace WHDesktops
             Button b = sender as Button;
             if (b != null)
             {
-              if (b.Name == "Tools")
-              {
-                var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                var ProcessInfo = new System.Diagnostics.ProcessStartInfo(path + "\\tools.exe");
-						    ProcessInfo.UseShellExecute = true;
-						    ProcessInfo.WorkingDirectory = path;
-                ProcessInfo.Arguments = "\"" + _connstring + "\"";
-						    if (System.Environment.OSVersion.Version.Major >= 6) // Windows Vista or higher
-						    {
-							    //run as administrator
-							    ProcessInfo.Verb = "runas";
-						    }
-
-                Process.Start(ProcessInfo);
-                return;
-              }
-              
-              ((IMyWPFEventSink)this).SendNotification(b.Name, "Event");
+                ((IMyWPFEventSink)this).SendNotification(b.Name, "Event");
             }
+        }
+
+        private void Tools_Click(object sender, RoutedEventArgs e)
+        {
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var ProcessInfo = new System.Diagnostics.ProcessStartInfo(path + "\\tools.exe");
+            ProcessInfo.UseShellExecute = true;
+            ProcessInfo.WorkingDirectory = path;
+            ProcessInfo.Arguments = "\"" + _connstring + "\"";
+            if (System.Environment.OSVersion.Version.Major >= 6) // Windows Vista or higher
+            {
+                //run as administrator
+                ProcessInfo.Verb = "runas";
+            }
+
+            Process.Start(ProcessInfo);
         }
     }
 }
