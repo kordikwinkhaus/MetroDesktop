@@ -105,6 +105,9 @@
         <Button x:Name="Magazyn" Tag="SKLADOVÉ OPERACE" Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/SkladoveOperace.png" />
         </Button>
+        <Button x:Name="Tools" Tag="TOOLS" Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}">
+          <Image Source="/MetroDesktop;component/Images/Tools.png" />
+        </Button>
       </WrapPanel>
 
       <WrapPanel MaxWidth="500" Grid.Column="2" Orientation="Horizontal">

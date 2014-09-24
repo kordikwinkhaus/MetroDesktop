@@ -49,6 +49,7 @@ namespace MetroDesktop
                 this.CommandPanelWidth = 240;
             }
 
+            this.ShowToolsButton = System.IO.File.Exists(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\tools.exe");
             _timer = new DispatcherTimer();
 #if (DEBUG)
             _timer.Interval = new TimeSpan(0, 0, 5);
@@ -176,6 +177,7 @@ db_id('Magazyn') AS Store";
             private set { _showAggrOrderButton = value; }
         }
 
+        public bool ShowToolsButton { get; private set; }
         private bool _showOptimalizationButton;
         public bool ShowOptimalizationButton 
         {
@@ -236,6 +238,11 @@ db_id('Magazyn') AS Store";
                 _OldDocs = value;
                 OnPropertyChanged("OldDocs");
             }
+        }
+
+        public string ConnectionString
+        {
+          get { return _connstring;  }
         }
 
         #region INotifyPropertyChanged Members

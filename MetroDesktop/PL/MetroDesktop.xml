@@ -14,5 +14,6 @@
   <resource key="Optimalization" value="Nowa optymalizacja" />
   <resource key="DealersCommunication" value="Wyslij lub odbierz zlecenie" />
   <resource key="StoreModule" value="Magazyn" />
+  <resource key="ToolsModule" value="Tools" />
   <resource key="Local" value="Lokalny" />
 </resources>

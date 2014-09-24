@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using UserExtensions;
@@ -9,6 +10,7 @@ namespace WHDesktops
     public partial class OknaDesk : UserControl, IMyWPFControl, IMyWPFEventSink
     {
         private CommandNotification cn;
+        private string _connstring;
 
         public OknaDesk()
         {
@@ -20,6 +22,7 @@ namespace WHDesktops
         public void Init(Dictionary<string, string> data)
         {
             MetroDesktop.DesktopViewModel viewmodel = new MetroDesktop.DesktopViewModel(data);
+            _connstring = viewmodel.ConnectionString;
             this.DataContext = viewmodel;
 
             Nowa_oferta.Tag = viewmodel.GetResource("Offer").ToUpper();
@@ -76,7 +79,24 @@ namespace WHDesktops
             Button b = sender as Button;
             if (b != null)
             {
-                ((IMyWPFEventSink)this).SendNotification(b.Name, "Event");
+              if (b.Name == "Tools")
+              {
+                var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                var ProcessInfo = new System.Diagnostics.ProcessStartInfo(path + "\\tools.exe");
+						    ProcessInfo.UseShellExecute = true;
+						    ProcessInfo.WorkingDirectory = path;
+                ProcessInfo.Arguments = "\"" + _connstring + "\"";
+						    if (System.Environment.OSVersion.Version.Major >= 6) // Windows Vista or higher
+						    {
+							    //run as administrator
+							    ProcessInfo.Verb = "runas";
+						    }
+
+                Process.Start(ProcessInfo);
+                return;
+              }
+              
+              ((IMyWPFEventSink)this).SendNotification(b.Name, "Event");
             }
         }
     }
