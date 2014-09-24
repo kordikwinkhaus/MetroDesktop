@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.OleDb;
 using System.Windows.Threading;
 
@@ -8,6 +9,9 @@ namespace MetroDesktop
 {
     public class DesktopViewModel : INotifyPropertyChanged
     {
+        private const int PRODUCER = 0;
+        private const int DEALER = 1;
+        private const int PRODUCER_WITH_DEALERS = 2;
         private readonly string _connstring;
         private readonly Dictionary<string, string> _resources;
         private readonly DispatcherTimer _timer;
@@ -26,27 +30,23 @@ namespace MetroDesktop
             
             LoadDocsInfo(firstRun: true);
 
-            switch (data["ProgramMode"])
+            this.Mode = Convert.ToInt32(data["ProgramMode"]);
+            int countOfButtons = 1; // open existing
+            if (this.ShowOfferButton) countOfButtons++;
+            if (this.ShowCommissionButton) countOfButtons++;
+            if (this.ShowOrderButton) countOfButtons++;
+            if (this.ShowAggrOrderButton) countOfButtons++;
+            if (this.ShowOptimalizationButton) countOfButtons++;
+            if (this.ShowDealerCommunicationButton) countOfButtons++;
+            if (this.ShowStoreButton) countOfButtons++;
+
+            if (countOfButtons <= 6)
             {
-                case "0": // výrobce
-                    this.ShowProducerButtons = true;
-                    if (!this.ShowStoreButton)
-                    {
-                        SetupTwoRowLayout();
-                    }
-                    break;
-
-                case "1": // dealer
-                    this.ShowDealerCommunicationButton = true;
-                    this.ShowStoreButton = false;
-                    SetupTwoRowLayout();
-                    this.CommandPanelWidth = 240;
-                    break;
-
-                case "2": // výrobce s dealery
-                    this.ShowProducerButtons = true;
-                    this.ShowDealerCommunicationButton = true;
-                    break;
+                this.SmallInfoSize = 235;
+            }
+            if (countOfButtons <= 4)
+            {
+                this.CommandPanelWidth = 240;
             }
 
             _timer = new DispatcherTimer();
@@ -105,33 +105,97 @@ SELECT COUNT(*) AS DocsCount FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
 
                     if (firstRun)
                     {
-                        this.Server = conn.DataSource;
-                        if (this.Server == ".")
-                        {
-                            this.Server = GetResource("Local");
-                        }
-                        this.Database = conn.Database;
-
-                        using (OleDbCommand cmd = new OleDbCommand("SELECT db_id('Magazyn')", conn))
-                        {
-                            this.ShowStoreButton = cmd.ExecuteScalar() != DBNull.Value;
-                        }
+                        LoadFirstTimeOnlyData(conn);
                     }
                 }
             }
             catch { }
         }
 
-        private void SetupTwoRowLayout()
+        private void LoadFirstTimeOnlyData(OleDbConnection conn)
         {
-            this.SmallInfoSize = 235;
+            this.Server = conn.DataSource;
+            if (this.Server == ".")
+            {
+                this.Server = GetResource("Local");
+            }
+            this.Database = conn.Database;
+
+            //using (OleDbCommand cmd = new OleDbCommand("SELECT db_id('Magazyn')", conn))
+            //{
+            //    this.ShowStoreButton = cmd.ExecuteScalar() != DBNull.Value;
+            //}
+
+            string sql = @"SELECT 
+ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_OFERTY'), 0) AS Offer,
+ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_ZLECENIA'), 0) AS Commission,
+ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_ZAMOWIENIA'), 0) AS [Order],
+ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_ZAMOWIENIA_ZBIOR'), 0) AS AggrOrder,
+ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_OPTYMALIZACJA_STER'), 0) AS Optim,
+ISNULL(IS_ROLEMEMBER('AUT_ZAMIANA_DEALERSKICH'), 0) AS Dealer,
+ISNULL(IS_ROLEMEMBER('AUT_NADZORCA_BAZ'), 0) AS Supervisor,
+ISNULL(IS_SRVROLEMEMBER('sysadmin'), 0) AS SysAdmin,
+db_id('Magazyn') AS Store";
+
+            using (OleDbCommand cmd = new OleDbCommand(sql, conn))
+            using (OleDbDataReader dr = cmd.ExecuteReader(CommandBehavior.SingleRow))
+            {
+                dr.Read();
+
+                bool admin = Convert.ToBoolean(dr["Supervisor"]) || Convert.ToBoolean(dr["SysAdmin"]);
+
+                this.ShowOfferButton = admin || dr.GetInt32(0) == 1;
+                this.ShowCommissionButton = admin || dr.GetInt32(1) == 1;
+                this.ShowOrderButton = admin || dr.GetInt32(2) == 1;
+                this.ShowAggrOrderButton = admin || dr.GetInt32(3) == 1;
+                this.ShowOptimalizationButton = admin || dr.GetInt32(4) == 1;
+                this.ShowDealerCommunicationButton = admin || dr.GetInt32(5) == 1;
+                this.ShowStoreButton = dr["Store"] != DBNull.Value;
+            }
         }
 
-        public bool ShowDealerCommunicationButton { get; private set; }
+        public int Mode { get; private set; }
 
         public bool ShowProducerButtons { get; private set; }
 
-        public bool ShowStoreButton { get; private set; }
+        public bool ShowOfferButton { get; private set; }
+
+        public bool ShowCommissionButton { get; private set; }
+
+        private bool _showOrderButton;
+        public bool ShowOrderButton 
+        {
+            get { return this.Mode != DEALER && _showOrderButton; }
+            private set { _showOrderButton = value; }
+        }
+
+        private bool _showAggrOrderButton;
+        public bool ShowAggrOrderButton 
+        {
+            get { return this.Mode != DEALER && _showAggrOrderButton; }
+            private set { _showAggrOrderButton = value; }
+        }
+
+        private bool _showOptimalizationButton;
+        public bool ShowOptimalizationButton 
+        {
+            get { return this.Mode != DEALER && _showOptimalizationButton; }
+            private set { _showOptimalizationButton = value; }
+        }
+
+        private bool _showDealerCommunicationButton;
+        public bool ShowDealerCommunicationButton 
+        {
+            get { return this.Mode != PRODUCER && _showDealerCommunicationButton; }
+            private set { _showDealerCommunicationButton = value; }
+        }
+
+        private bool _showStoreButton;
+        public bool ShowStoreButton 
+        {
+            get { return this.Mode != DEALER && _showStoreButton; }
+            private set { _showStoreButton = value; }
+        }
 
         public string Version { get; private set; }
 
