@@ -14,6 +14,6 @@
   <resource key="Optimalization" value="Optimalizace" />
   <resource key="DealersCommunication" value="Partnerská komunikace" />
   <resource key="StoreModule" value="Skladové operace" />
-  <resource key="ToolsModule" value="Nástroje" />
+  <resource key="Tools" value="Nástroje" />
   <resource key="Local" value="Lokální" />
 </resources>
