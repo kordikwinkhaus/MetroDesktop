@@ -27,15 +27,15 @@ namespace WHDesktops
             _connstring = _viewmodel.ConnectionString;
             this.DataContext = _viewmodel;
 
-            Nowa_oferta.Tag = _viewmodel.GetResource("Offer").ToUpper();
-            Nowe_zlecenie_produkcyjne.Tag = _viewmodel.GetResource("Commission").ToUpper();
-            Otworz_istniejacy_dokument.Tag = _viewmodel.GetResource("ExistingDocuments", "Existing Documents").ToUpper();
-            Nowe_zamowienie.Tag = _viewmodel.GetResource("Order").ToUpper();
-            Zamowienie_zbiorcze.Tag = _viewmodel.GetResource("SummaryOrder", "Summary Order").ToUpper();
-            Nowa_optymalizacja.Tag = _viewmodel.GetResource("Optimalization").ToUpper();
-            Wyslij_lub_odbierz_zlecenie.Tag = _viewmodel.GetResource("DealersCommunication", "Dealers Communication").ToUpper();
-            Magazyn.Tag = _viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
-            Tools.Tag = _viewmodel.GetResource("Tools").ToUpper();
+            Nowa_oferta.Content = _viewmodel.GetResource("Offer").ToUpper();
+            Nowe_zlecenie_produkcyjne.Content = _viewmodel.GetResource("Commission").ToUpper();
+            Otworz_istniejacy_dokument.Content = _viewmodel.GetResource("ExistingDocuments", "Existing Documents").ToUpper();
+            Nowe_zamowienie.Content = _viewmodel.GetResource("Order").ToUpper();
+            Zamowienie_zbiorcze.Content = _viewmodel.GetResource("SummaryOrder", "Summary Order").ToUpper();
+            Nowa_optymalizacja.Content = _viewmodel.GetResource("Optimalization").ToUpper();
+            Wyslij_lub_odbierz_zlecenie.Content = _viewmodel.GetResource("DealersCommunication", "Dealers Communication").ToUpper();
+            Magazyn.Content = _viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
+            Tools.Content = _viewmodel.GetResource("Tools").ToUpper();
 
             ipDocuments.Title = _viewmodel.GetResource("Documents").ToUpper();
             lblTomorrowDocs.Text = _viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
