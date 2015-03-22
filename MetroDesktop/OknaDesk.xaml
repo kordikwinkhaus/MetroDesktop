@@ -7,7 +7,8 @@
              mc:Ignorable="d" 
              TextOptions.TextFormattingMode="Display"
              SnapsToDevicePixels="True"
-             UseLayoutRounding="True" SizeChanged="UserControl_SizeChanged">
+             UseLayoutRounding="True" 
+             SizeChanged="UserControl_SizeChanged">
   <UserControl.Resources>
     <my:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
 
@@ -193,110 +194,68 @@
       </Grid.ColumnDefinitions>
 
       <WrapPanel MaxWidth="{Binding CommandPanelWidth, FallbackValue=360}">
-        <WrapPanel.Resources>
-          <ControlTemplate x:Key="MetroButton" TargetType="Button">
-            <Canvas>
-              <Rectangle x:Name="rect" Fill="#FF003580" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
-              <ContentPresenter Canvas.Left="31" Canvas.Top="26" Height="48" Width="48"/>
-              <StackPanel Width="100" Height="30" Canvas.Bottom="0" Canvas.Left="5">
-                <TextBlock Text="{TemplateBinding Tag}"
-                           HorizontalAlignment="Center"
-                           TextWrapping="Wrap"
-                           VerticalAlignment="Center"
-                           TextAlignment="Center"
-                           FontSize="11"
-                           />
-              </StackPanel>
-            </Canvas>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
-              </Trigger>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter Property="RenderTransform">
-                  <Setter.Value>
-                    <ScaleTransform ScaleX="0.96" ScaleY="0.96"/>
-                  </Setter.Value>
-                </Setter>
-                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-          
-          <Style x:Key="BlueButton" TargetType="Button">
-            <Setter Property="Width" Value="110"/>
-            <Setter Property="Height" Value="110"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Template" Value="{StaticResource MetroButton}"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Cursor" Value="Hand"/>
-          </Style>
-
-          <!--
-          <Style TargetType="my:MetroButton" BasedOn="{StaticResource my:MetroButton}">
-            <EventSetter Event="Click" Handler="button_Click"/>
-          </Style>
-          -->
-        </WrapPanel.Resources>
-        
         <my:MetroButton x:Name="Nowa_oferta"
                         Content="NOVÁ NABÍDKA"
                         Visibility="{Binding ShowOfferButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/NovaNabidka.png"
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Nowe_zlecenie_produkcyjne" 
                         Content="NOVÁ ZAKÁZKA" 
                         Visibility="{Binding ShowCommissionButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/NovaZakazka.png"
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Otworz_istniejacy_dokument" 
                         Content="EXISTUJÍCÍ DOKUMENTY"
                         Image="/MetroDesktop;component/Images/OtevritExistujici.png" 
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Nowe_zamowienie" 
                         Content="OBJEDNÁVKA" 
                         Visibility="{Binding ShowOrderButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" 
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Zamowienie_zbiorcze" 
                         Content="SOUHRNNÁ OBJEDNÁVKA" 
                         Visibility="{Binding ShowAggrOrderButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/SouhrnnaObjednavka.png" 
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Nowa_optymalizacja" 
                         Content="OPTIMALIZACE" 
                         Visibility="{Binding ShowOptimalizationButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/Optimalizace.png" 
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Wyslij_lub_odbierz_zlecenie" 
                         Content="PARTNERSKÁ KOMUNIKACE" 
                         Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/PartnerskaKomunikace.png" 
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Magazyn" 
                         Content="SKLADOVÉ OPERACE" 
                         Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/SkladoveOperace.png" 
                         Compact="{Binding Compact}"
+                        Click="button_Click"
                         />
         <my:MetroButton x:Name="Tools" 
                         Content="TOOLS" 
-                        Click="Tools_Click" 
                         Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/Tools.png" 
                         Compact="{Binding Compact}"
+                        Click="Tools_Click" 
                         />
-        <!--
-                        Style="{StaticResource BlueButton}" 
-        -->
       </WrapPanel>
 
       <WrapPanel MaxWidth="500" Grid.Column="2" Orientation="Horizontal">
