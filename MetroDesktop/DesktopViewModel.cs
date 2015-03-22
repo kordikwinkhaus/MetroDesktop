@@ -21,8 +21,6 @@ namespace MetroDesktop
             _connstring = data["ConnectionString"];
             _resources = ResourceReader.ReadResources(data["AppPath"], data["Language"]);
 
-            this.Compact = true;
-
             this.Server = "n/a";
             this.Database = "n/a";
 
@@ -52,6 +50,8 @@ namespace MetroDesktop
             {
                 this.CommandPanelWidth = 240;
             }
+            this.MinWidth = (this.CommandPanelWidth + this.MiddleColumnWidth + 480);
+            this.MinHeight = ((this.SmallInfoSize < 300) ? 240 : 360) + 40;
 
             _timer = new DispatcherTimer();
 #if (DEBUG)
@@ -209,9 +209,32 @@ db_id('Magazyn') AS Store";
 
         public string Database { get; private set; }
 
-        public int CommandPanelWidth { get; private set; }
+        private int _commandPanelWidth;
+        public int CommandPanelWidth 
+        {
+            get { return this.Compact ? 240 : _commandPanelWidth; }
+            private set
+            {
+                _commandPanelWidth = value;
+                OnPropertyChanged("CommandPanelWidth");
+            }
+        }
 
-        public int SmallInfoSize { get; private set; }
+        private int _smallInfoSize;
+        public int SmallInfoSize 
+        {
+            get { return this.Compact ? 180 : _smallInfoSize; }
+            private set 
+            { 
+                _smallInfoSize = value;
+                OnPropertyChanged("SmallInfoSize");
+            }
+        }
+
+        public int MiddleColumnWidth
+        {
+            get { return this.Compact ? 60 : 120; }
+        }
 
         private int _TomorrowDocs;
         private int _TodayDocs;
@@ -244,7 +267,25 @@ db_id('Magazyn') AS Store";
             }
         }
 
-        public bool Compact { get; set; }
+        private bool _compact;
+        public bool Compact 
+        {
+            get { return _compact; }
+            set
+            {
+                if (_compact != value)
+                {
+                    _compact = value;
+                    OnPropertyChanged("Compact");
+                    OnPropertyChanged("SmallInfoSize");
+                    OnPropertyChanged("CommandPanelWidth");
+                    OnPropertyChanged("MiddleColumnWidth");
+                }
+            }
+        }
+
+        public int MinWidth { get; private set; }
+        public int MinHeight { get; private set; }
 
         public string ConnectionString
         {

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              TextOptions.TextFormattingMode="Display"
              SnapsToDevicePixels="True"
-             UseLayoutRounding="True">
+             UseLayoutRounding="True" SizeChanged="UserControl_SizeChanged">
   <UserControl.Resources>
     <my:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
 
@@ -15,7 +15,7 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="my:InfoPanel">
-            <Grid Height="110">
+            <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="col1" Width="110"/>
                 <ColumnDefinition Width="Auto"/>
@@ -61,6 +61,8 @@
                 <Setter Property="Visibility" Value="Collapsed" TargetName="img"/>
                 <Setter Property="Width" Value="26" TargetName="rect"/>
                 <Setter Property="Height" Value="26" TargetName="rect"/>
+                <Setter Property="Width" Value="360"/>
+                <Setter Property="Height" Value="119"/>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -168,8 +170,13 @@
       <ColumnDefinition SharedSizeGroup="sirka" />
     </Grid.ColumnDefinitions>
 
-    <Canvas Grid.Column="2" >
+    <Canvas Grid.Column="2" Visibility="{Binding Compact, Converter={StaticResource BooleanVisibilityConverter}, ConverterParameter=true}">
       <Image Canvas.Right="10" Canvas.Top="10" Width="199" Height="51" 
+             Source="/MetroDesktop;component/Images/Winkhaus.gif" />
+    </Canvas>
+
+    <Canvas Grid.Column="2" Grid.Row="2" Visibility="{Binding Compact, Converter={StaticResource BooleanVisibilityConverter}}">
+      <Image Canvas.Right="10" Canvas.Bottom="10" Width="199" Height="51" 
              Source="/MetroDesktop;component/Images/Winkhaus.gif" />
     </Canvas>
     
@@ -181,7 +188,7 @@
     <Grid Grid.Column="1" Grid.Row="1">
       <Grid.ColumnDefinitions>
         <ColumnDefinition />
-        <ColumnDefinition Width="120" />
+        <ColumnDefinition Width="{Binding MiddleColumnWidth, Mode=OneWay, FallbackValue=120}" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
@@ -234,41 +241,62 @@
         </WrapPanel.Resources>
         
         <my:MetroButton x:Name="Nowa_oferta"
+                        Content="NOVÁ NABÍDKA"
                         Visibility="{Binding ShowOfferButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/NovaNabidka.png"
                         Compact="{Binding Compact}"
-                        Content="NOVÁ NABÍDKA"
                         />
-        
+        <my:MetroButton x:Name="Nowe_zlecenie_produkcyjne" 
+                        Content="NOVÁ ZAKÁZKA" 
+                        Visibility="{Binding ShowCommissionButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/NovaZakazka.png"
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Otworz_istniejacy_dokument" 
+                        Content="EXISTUJÍCÍ DOKUMENTY"
+                        Image="/MetroDesktop;component/Images/OtevritExistujici.png" 
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Nowe_zamowienie" 
+                        Content="OBJEDNÁVKA" 
+                        Visibility="{Binding ShowOrderButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" 
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Zamowienie_zbiorcze" 
+                        Content="SOUHRNNÁ OBJEDNÁVKA" 
+                        Visibility="{Binding ShowAggrOrderButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/SouhrnnaObjednavka.png" 
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Nowa_optymalizacja" 
+                        Content="OPTIMALIZACE" 
+                        Visibility="{Binding ShowOptimalizationButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/Optimalizace.png" 
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Wyslij_lub_odbierz_zlecenie" 
+                        Content="PARTNERSKÁ KOMUNIKACE" 
+                        Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/PartnerskaKomunikace.png" 
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Magazyn" 
+                        Content="SKLADOVÉ OPERACE" 
+                        Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/SkladoveOperace.png" 
+                        Compact="{Binding Compact}"
+                        />
+        <my:MetroButton x:Name="Tools" 
+                        Content="TOOLS" 
+                        Click="Tools_Click" 
+                        Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/Tools.png" 
+                        Compact="{Binding Compact}"
+                        />
         <!--
-        <Button x:Name="Nowa_oferta" Tag="NOVÁ NABÍDKA" Visibility="{Binding ShowOfferButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/NovaNabidka.png" />
-        </Button>
+                        Style="{StaticResource BlueButton}" 
         -->
-        <Button x:Name="Nowe_zlecenie_produkcyjne" Tag="NOVÁ ZAKÁZKA" Visibility="{Binding ShowCommissionButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/NovaZakazka.png" />
-        </Button>
-        <Button x:Name="Otworz_istniejacy_dokument" Tag="EXISTUJÍCÍ DOKUMENTY">
-          <Image Source="/MetroDesktop;component/Images/OtevritExistujici.png" />
-        </Button>
-        <Button x:Name="Nowe_zamowienie" Tag="OBJEDNÁVKA" Visibility="{Binding ShowOrderButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/ObjednavkaMaterialu.png" />
-        </Button>
-        <Button x:Name="Zamowienie_zbiorcze" Tag="SOUHRNNÁ OBJEDNÁVKA" Visibility="{Binding ShowAggrOrderButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/SouhrnnaObjednavka.png" />
-        </Button>
-        <Button x:Name="Nowa_optymalizacja" Tag="OPTIMALIZACE" Visibility="{Binding ShowOptimalizationButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/Optimalizace.png" />
-        </Button>
-        <Button x:Name="Wyslij_lub_odbierz_zlecenie" Tag="PARTNERSKÁ KOMUNIKACE" Visibility="{Binding ShowDealerCommunicationButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/PartnerskaKomunikace.png" />
-        </Button>
-        <Button x:Name="Magazyn" Tag="SKLADOVÉ OPERACE" Visibility="{Binding ShowStoreButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/SkladoveOperace.png" />
-        </Button>
-        <Button Style="{StaticResource BlueButton}" x:Name="Tools" Tag="TOOLS" Click="Tools_Click" Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}">
-          <Image Source="/MetroDesktop;component/Images/Tools.png" />
-        </Button>
       </WrapPanel>
 
       <WrapPanel MaxWidth="500" Grid.Column="2" Orientation="Horizontal">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using MetroDesktop;
 using UserExtensions;
 
 namespace WHDesktops
@@ -11,6 +12,7 @@ namespace WHDesktops
     {
         private CommandNotification cn;
         private string _connstring;
+        private DesktopViewModel _viewmodel;
 
         public OknaDesk()
         {
@@ -21,29 +23,29 @@ namespace WHDesktops
 
         public void Init(Dictionary<string, string> data)
         {
-            MetroDesktop.DesktopViewModel viewmodel = new MetroDesktop.DesktopViewModel(data);
-            _connstring = viewmodel.ConnectionString;
-            this.DataContext = viewmodel;
+            _viewmodel = new MetroDesktop.DesktopViewModel(data);
+            _connstring = _viewmodel.ConnectionString;
+            this.DataContext = _viewmodel;
 
-            Nowa_oferta.Tag = viewmodel.GetResource("Offer").ToUpper();
-            Nowe_zlecenie_produkcyjne.Tag = viewmodel.GetResource("Commission").ToUpper();
-            Otworz_istniejacy_dokument.Tag = viewmodel.GetResource("ExistingDocuments", "Existing Documents").ToUpper();
-            Nowe_zamowienie.Tag = viewmodel.GetResource("Order").ToUpper();
-            Zamowienie_zbiorcze.Tag = viewmodel.GetResource("SummaryOrder", "Summary Order").ToUpper();
-            Nowa_optymalizacja.Tag = viewmodel.GetResource("Optimalization").ToUpper();
-            Wyslij_lub_odbierz_zlecenie.Tag = viewmodel.GetResource("DealersCommunication", "Dealers Communication").ToUpper();
-            Magazyn.Tag = viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
-            Tools.Tag = viewmodel.GetResource("Tools").ToUpper();
+            Nowa_oferta.Tag = _viewmodel.GetResource("Offer").ToUpper();
+            Nowe_zlecenie_produkcyjne.Tag = _viewmodel.GetResource("Commission").ToUpper();
+            Otworz_istniejacy_dokument.Tag = _viewmodel.GetResource("ExistingDocuments", "Existing Documents").ToUpper();
+            Nowe_zamowienie.Tag = _viewmodel.GetResource("Order").ToUpper();
+            Zamowienie_zbiorcze.Tag = _viewmodel.GetResource("SummaryOrder", "Summary Order").ToUpper();
+            Nowa_optymalizacja.Tag = _viewmodel.GetResource("Optimalization").ToUpper();
+            Wyslij_lub_odbierz_zlecenie.Tag = _viewmodel.GetResource("DealersCommunication", "Dealers Communication").ToUpper();
+            Magazyn.Tag = _viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
+            Tools.Tag = _viewmodel.GetResource("Tools").ToUpper();
 
-            ipDocuments.Title = viewmodel.GetResource("Documents").ToUpper();
-            lblTomorrowDocs.Text = viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
-            lblTodayDocs.Text = viewmodel.GetResource("TodayDocuments", "Documents with today's production date:");
-            lblOldDocs.Text = viewmodel.GetResource("OldDocuments", "Documents after production date:");
+            ipDocuments.Title = _viewmodel.GetResource("Documents").ToUpper();
+            lblTomorrowDocs.Text = _viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
+            lblTodayDocs.Text = _viewmodel.GetResource("TodayDocuments", "Documents with today's production date:");
+            lblOldDocs.Text = _viewmodel.GetResource("OldDocuments", "Documents after production date:");
 
-            ipServer.Title = viewmodel.GetResource("Server").ToUpper();
-            ipDatabase.Title = viewmodel.GetResource("Database").ToUpper();
+            ipServer.Title = _viewmodel.GetResource("Server").ToUpper();
+            ipDatabase.Title = _viewmodel.GetResource("Database").ToUpper();
 
-            lblError.Text = viewmodel.GetResource("Error", string.Empty);
+            lblError.Text = _viewmodel.GetResource("Error", string.Empty);
         }
 
         public void OnActivate()
@@ -98,6 +100,13 @@ namespace WHDesktops
             }
 
             Process.Start(ProcessInfo);
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_viewmodel == null) return;
+
+            _viewmodel.Compact = (this.ActualHeight < _viewmodel.MinHeight || this.ActualWidth < _viewmodel.MinWidth);
         }
     }
 }
