@@ -21,6 +21,8 @@ namespace MetroDesktop
             _connstring = data["ConnectionString"];
             _resources = ResourceReader.ReadResources(data["AppPath"], data["Language"]);
 
+            this.Compact = true;
+
             this.Server = "n/a";
             this.Database = "n/a";
 
@@ -241,6 +243,8 @@ db_id('Magazyn') AS Store";
                 OnPropertyChanged("OldDocs");
             }
         }
+
+        public bool Compact { get; set; }
 
         public string ConnectionString
         {

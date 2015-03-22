@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanVisibilityConverter.cs" />
+    <Compile Include="InfoPanel.cs" />
+    <Compile Include="MetroButton.cs" />
     <Compile Include="ResourceReader.cs" />
     <Page Include="OknaDesk.xaml">
       <Generator>MSBuild:Compile</Generator>

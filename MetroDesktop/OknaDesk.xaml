@@ -6,9 +6,154 @@
              xmlns:my="clr-namespace:MetroDesktop"
              mc:Ignorable="d" 
              TextOptions.TextFormattingMode="Display"
+             SnapsToDevicePixels="True"
              UseLayoutRounding="True">
   <UserControl.Resources>
     <my:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
+
+    <Style TargetType="my:InfoPanel">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="my:InfoPanel">
+            <Grid Height="110">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="col1" Width="110"/>
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+
+              <Rectangle x:Name="rect" 
+                         Grid.RowSpan="2" 
+                         VerticalAlignment="Top" 
+                         Fill="{TemplateBinding Background}" 
+                         Width="110"
+                         Height="110"
+                         />
+              <Image x:Name="img" 
+                     Grid.RowSpan="2" 
+                     Width="48" 
+                     Height="48" 
+                     VerticalAlignment="Center" 
+                     HorizontalAlignment="Center" 
+                     Source="{TemplateBinding TileImage}" 
+                     />
+
+              <TextBlock Grid.Column="1" 
+                         Text="{TemplateBinding Title}" 
+                         Foreground="{TemplateBinding Foreground}"
+                         FontSize="18"
+                         Margin="8,0,0,10"
+                         />
+
+              <ContentPresenter Grid.Column="1"
+                                Grid.Row="1"
+                                Margin="9,5,0,0"
+                                />
+            </Grid>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="Compact" Value="True">
+                <Setter Property="Width" Value="26" TargetName="col1"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="img"/>
+                <Setter Property="Width" Value="26" TargetName="rect"/>
+                <Setter Property="Height" Value="26" TargetName="rect"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Foreground" Value="Gray" />
+      <Setter Property="Height" Value="110"/>
+      <Setter Property="Width" Value="480"/>
+      <Setter Property="Margin" Value="5"/>
+      <Setter Property="FontSize" Value="11"/>
+    </Style>
+
+    <Style TargetType="my:MetroButton">
+      <Setter Property="Width" Value="110"/>
+      <Setter Property="Height" Value="110"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="my:MetroButton">
+            <Canvas>
+              <Rectangle x:Name="rect" Fill="#FF003580" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+
+              <Image Source="{TemplateBinding Image}" Canvas.Left="31" Canvas.Top="26" Height="48" Width="48"/>
+
+              <Grid Width="100" Height="30" Canvas.Bottom="0" Canvas.Left="5">
+                <TextBlock Text="{TemplateBinding Content}"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           FontSize="11"
+                           />
+              </Grid>
+            </Canvas>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter Property="RenderTransform">
+                  <Setter.Value>
+                    <ScaleTransform ScaleX="0.96" ScaleY="0.96"/>
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Margin" Value="5"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Style.Triggers>
+        <Trigger Property="Compact" Value="True">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="my:MetroButton">
+                <Canvas>
+                  <Rectangle x:Name="rect" Fill="#FF003580" Height="{TemplateBinding Height}" Width="{TemplateBinding Height}"/>
+
+                  <Grid Width="200" Height="{TemplateBinding Height}" Canvas.Bottom="0" Canvas.Left="{TemplateBinding Height}">
+                    <TextBlock x:Name="txt" 
+                               Text="{TemplateBinding Content}"
+                               Margin="5,3"
+                               HorizontalAlignment="Left"
+                               TextWrapping="NoWrap"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               >
+                    </TextBlock>
+                  </Grid>
+                </Canvas>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
+                    <Setter TargetName="txt" Property="Foreground" Value="#FF96C0E6"/>
+                  </Trigger>
+                  <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="rect" Property="Fill" Value="#FFF1CB00"/>
+                    <Setter TargetName="txt" Property="Foreground" Value="#FFF1CB00"/>
+                  </Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="Margin" Value="8"/>
+          <Setter Property="Height" Value="26"/>
+          <Setter Property="Foreground" Value="#FF003580"/>
+          <Setter Property="Width" Value="200"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
   </UserControl.Resources>
   
   <Grid x:Name="LayoutRoot" Background="White">
@@ -81,13 +226,25 @@
             <Setter Property="Cursor" Value="Hand"/>
           </Style>
 
-          <Style TargetType="Button" BasedOn="{StaticResource BlueButton}">
+          <!--
+          <Style TargetType="my:MetroButton" BasedOn="{StaticResource my:MetroButton}">
             <EventSetter Event="Click" Handler="button_Click"/>
           </Style>
+          -->
         </WrapPanel.Resources>
+        
+        <my:MetroButton x:Name="Nowa_oferta"
+                        Visibility="{Binding ShowOfferButton, Converter={StaticResource BooleanVisibilityConverter}}"
+                        Image="/MetroDesktop;component/Images/NovaNabidka.png"
+                        Compact="{Binding Compact}"
+                        Content="NOVÁ NABÍDKA"
+                        />
+        
+        <!--
         <Button x:Name="Nowa_oferta" Tag="NOVÁ NABÍDKA" Visibility="{Binding ShowOfferButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/NovaNabidka.png" />
         </Button>
+        -->
         <Button x:Name="Nowe_zlecenie_produkcyjne" Tag="NOVÁ ZAKÁZKA" Visibility="{Binding ShowCommissionButton, Converter={StaticResource BooleanVisibilityConverter}}">
           <Image Source="/MetroDesktop;component/Images/NovaZakazka.png" />
         </Button>
@@ -116,83 +273,63 @@
 
       <WrapPanel MaxWidth="500" Grid.Column="2" Orientation="Horizontal">
         <WrapPanel.Resources>
-          <Style TargetType="Canvas">
-            <Setter Property="Height" Value="110"/>
-            <Setter Property="Width" Value="480"/>
-            <Setter Property="Margin" Value="5"/>
-          </Style>
-          
-          <Style TargetType="Rectangle">
-            <Setter Property="Width" Value="110"/>
-            <Setter Property="Height" Value="110"/>
-          </Style>
-          
-          <Style TargetType="Image">
-            <Setter Property="Canvas.Top" Value="31"/>
-            <Setter Property="Canvas.Left" Value="31"/>
-          </Style>
-          
-          <Style x:Key="Nadpis" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="Canvas.Left" Value="118"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Canvas.Top" Value="0"/>
-          </Style>
-          
-          <Style x:Key="HodnotaBase" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Margin" Value="0,0,6,0"/>
-          </Style>
-
-          <Style x:Key="Hodnota" BasedOn="{StaticResource HodnotaBase}" TargetType="TextBlock">
-            <Setter Property="Canvas.Left" Value="118"/>
-            <Setter Property="Canvas.Top" Value="40"/>
+          <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,5,7"/>
           </Style>
         </WrapPanel.Resources>
+
+        <my:InfoPanel x:Name="ipDocuments" 
+                      Background="#FFF1CB00"
+                      TileImage="/MetroDesktop;component/Images/Document.png"
+                      Title="DOCUMENTS"
+                      Compact="{Binding Compact}"
+                      >
+          <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+              <Style TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+              </Style>
+            </StackPanel.Resources>
+            
+            <StackPanel>
+              <TextBlock x:Name="lblTomorrowDocs">Tomorrow:</TextBlock>
+              <TextBlock Text="{Binding TomorrowDocs, FallbackValue=12}" />
+            </StackPanel>
+
+            <StackPanel TextBlock.FontWeight="Bold">
+              <TextBlock x:Name="lblTodayDocs">Today:</TextBlock>
+              <TextBlock Text="{Binding TodayDocs, FallbackValue=34}" />
+            </StackPanel>
+
+            <StackPanel>
+              <TextBlock x:Name="lblOldDocs">Old:</TextBlock>
+              <TextBlock Text="{Binding OldDocs, FallbackValue=567}" />
+            </StackPanel>
+          </StackPanel>
+        </my:InfoPanel>
         
-        <Canvas>
-          <Canvas.Resources>
-            <Style TargetType="StackPanel">
-              <Setter Property="Orientation" Value="Horizontal"/>
-              <Setter Property="Canvas.Left" Value="118" />
-            </Style>
-          </Canvas.Resources>
-          
-          <Rectangle Fill="#FFF1CB00" />
-          <Image Source="/MetroDesktop;component/Images/Document.png" />
-          <TextBlock x:Name="lblDocuments" Style="{StaticResource Nadpis}">DOCUMENTS</TextBlock>
-          
-          <StackPanel Canvas.Top="40">
-            <TextBlock x:Name="lblTomorrowDocs" Style="{StaticResource HodnotaBase}">Tomorrow:</TextBlock>
-            <TextBlock Style="{StaticResource HodnotaBase}" Text="{Binding TomorrowDocs, FallbackValue=12}" />
+        <my:InfoPanel x:Name="ipServer"
+                      Background="#FFEC9A19"
+                      TileImage="/MetroDesktop;component/Images/Server.png"
+                      Title="SERVER"
+                      Compact="{Binding Compact}"
+                      Width="{Binding SmallInfoSize, FallbackValue=480}"
+                      >
+          <TextBlock Text="{Binding Server, FallbackValue=localhost}" />
+        </my:InfoPanel>
+
+        <my:InfoPanel x:Name="ipDatabase"
+                      Background="#FF7DBB37"
+                      TileImage="/MetroDesktop;component/Images/Data.png"
+                      Title="DATABASE"
+                      Compact="{Binding Compact}"
+                      Width="{Binding SmallInfoSize, FallbackValue=480}"
+                      >
+          <StackPanel>
+            <TextBlock Text="{Binding Database, FallbackValue=wh_demo}" />
+            <TextBlock Text="{Binding Version, FallbackValue=1.2.3.4}" />
           </StackPanel>
-
-          <StackPanel Canvas.Top="60" TextBlock.FontWeight="Bold">
-            <TextBlock x:Name="lblTodayDocs" Style="{StaticResource HodnotaBase}">Today:</TextBlock>
-            <TextBlock Style="{StaticResource HodnotaBase}" Text="{Binding TodayDocs, FallbackValue=34}" />
-          </StackPanel>
-
-          <StackPanel Canvas.Top="80">
-            <TextBlock x:Name="lblOldDocs" Style="{StaticResource HodnotaBase}">Old:</TextBlock>
-            <TextBlock Style="{StaticResource HodnotaBase}" Text="{Binding OldDocs, FallbackValue=567}" />
-          </StackPanel>
-        </Canvas>
-
-        <Canvas Width="{Binding SmallInfoSize, FallbackValue=480}">
-          <Rectangle Fill="#FFEC9A19" />
-          <Image Source="/MetroDesktop;component/Images/Server.png" />
-          <TextBlock x:Name="lblServer" Style="{StaticResource Nadpis}">SERVER</TextBlock>
-          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Server, FallbackValue=localhost}" />
-        </Canvas>
-
-        <Canvas Width="{Binding SmallInfoSize, FallbackValue=480}">
-          <Rectangle Fill="#FF7DBB37" />
-          <Image Source="/MetroDesktop;component/Images/Data.png" />
-          <TextBlock x:Name="lblDatabase" Style="{StaticResource Nadpis}">DATABASE</TextBlock>
-          <TextBlock Style="{StaticResource Hodnota}" Text="{Binding Database, FallbackValue=wh_demo}" />
-          <TextBlock Style="{StaticResource Hodnota}" Canvas.Top="60" Text="{Binding Version, FallbackValue=1.2.3.4}" />
-        </Canvas>
+        </my:InfoPanel>
       </WrapPanel>
     </Grid>
   </Grid>

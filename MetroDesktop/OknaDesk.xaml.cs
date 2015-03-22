@@ -35,13 +35,13 @@ namespace WHDesktops
             Magazyn.Tag = viewmodel.GetResource("StoreModule", "Store Module").ToUpper();
             Tools.Tag = viewmodel.GetResource("Tools").ToUpper();
 
-            lblDocuments.Text = viewmodel.GetResource("Documents").ToUpper();
+            ipDocuments.Title = viewmodel.GetResource("Documents").ToUpper();
             lblTomorrowDocs.Text = viewmodel.GetResource("TomorrowDocuments", "Documents with tomorrow's production date:");
             lblTodayDocs.Text = viewmodel.GetResource("TodayDocuments", "Documents with today's production date:");
             lblOldDocs.Text = viewmodel.GetResource("OldDocuments", "Documents after production date:");
 
-            lblServer.Text = viewmodel.GetResource("Server").ToUpper();
-            lblDatabase.Text = viewmodel.GetResource("Database").ToUpper();
+            ipServer.Title = viewmodel.GetResource("Server").ToUpper();
+            ipDatabase.Title = viewmodel.GetResource("Database").ToUpper();
 
             lblError.Text = viewmodel.GetResource("Error", string.Empty);
         }
