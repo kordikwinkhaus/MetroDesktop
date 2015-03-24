@@ -50,7 +50,8 @@
                          Margin="8,0,0,10"
                          />
 
-              <ContentPresenter Grid.Column="1"
+              <ContentPresenter x:Name="content" 
+                                Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="9,5,0,0"
                                 />
@@ -63,7 +64,8 @@
                 <Setter Property="Width" Value="26" TargetName="rect"/>
                 <Setter Property="Height" Value="26" TargetName="rect"/>
                 <Setter Property="Width" Value="360"/>
-                <Setter Property="Height" Value="119"/>
+                <Setter Property="Height" Value="98"/>
+                <Setter Property="Margin" Value="9,2,0,0" TargetName="content"/>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -150,7 +152,6 @@
               </ControlTemplate>
             </Setter.Value>
           </Setter>
-          <Setter Property="Margin" Value="8"/>
           <Setter Property="Height" Value="26"/>
           <Setter Property="Foreground" Value="#FF003580"/>
           <Setter Property="Width" Value="200"/>
