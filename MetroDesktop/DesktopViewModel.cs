@@ -155,6 +155,7 @@ db_id('Magazyn') AS Store";
                 this.ShowOptimalizationButton = admin || dr.GetInt32(4) == 1;
                 this.ShowDealerCommunicationButton = admin || dr.GetInt32(5) == 1;
                 this.ShowStoreButton = dr["Store"] != DBNull.Value;
+                this.ShowToolsButton &= admin;
             }
         }
 
