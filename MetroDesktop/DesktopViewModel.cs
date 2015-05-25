@@ -27,9 +27,9 @@ namespace MetroDesktop
             this.Version = data["Version"];
             this.SmallInfoSize = 480;
             this.CommandPanelWidth = 360;
-            
-            LoadDocsInfo(firstRun: true);
+
             this.ShowToolsButton = System.IO.File.Exists(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\tools.exe");
+            LoadDocsInfo(firstRun: true);
 
             this.Mode = Convert.ToInt32(data["ProgramMode"]);
             int countOfButtons = 1; // open existing doc
