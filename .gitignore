@@ -15,3 +15,5 @@ TestResults/*
 *.vsmdi
 Thumbs.db
 */CoverageReports/*
+*.xcf
+

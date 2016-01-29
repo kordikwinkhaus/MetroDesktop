@@ -46,6 +46,7 @@
     <Reference Include="UserExtContract, Version=9.9.9.9, Culture=neutral, PublicKeyToken=d6cae255a7a68871, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\UserExt\UserExtContract.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
