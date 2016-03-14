@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Winkhaus")]
 [assembly: AssemblyProduct("MetroDesktop")]
-[assembly: AssemblyCopyright("Copyright © Winkhaus 2013-2015")]
+[assembly: AssemblyCopyright("Copyright © Winkhaus 2013-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

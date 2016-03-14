@@ -82,6 +82,7 @@ namespace WHDesktops
             Button b = sender as Button;
             if (b != null)
             {
+                // dostupné příkazy (argument command) jsou v souboru WPFFormView.cpp v OKNA
                 ((IMyWPFEventSink)this).SendNotification(b.Name, "Event");
             }
         }
