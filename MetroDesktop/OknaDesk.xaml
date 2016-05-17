@@ -86,32 +86,49 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="my:MetroButton">
-            <Canvas>
-              <Rectangle x:Name="rect" Fill="#FF003580" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+            <Grid x:Name="outer"
+                  Height="{TemplateBinding Height}" 
+                  Width="{TemplateBinding Width}"
+                  >
+              <Grid x:Name="inner"
+                    Background="#FF003580"
+                    Height="{TemplateBinding Height}" 
+                    Width="{TemplateBinding Width}"
+                    RenderTransformOrigin="0.5,0.5"
+                    >
 
-              <Image Source="{TemplateBinding Image}" Canvas.Left="31" Canvas.Top="26" Height="48" Width="48"/>
+                <Image Source="{TemplateBinding Image}" 
+                       Margin="31,26" 
+                       Height="48" 
+                       Width="48"
+                       VerticalAlignment="Top"
+                       />
 
-              <Grid Width="100" Height="30" Canvas.Bottom="0" Canvas.Left="5">
-                <TextBlock Text="{TemplateBinding Content}"
-                           HorizontalAlignment="Center"
-                           TextWrapping="Wrap"
-                           VerticalAlignment="Center"
-                           TextAlignment="Center"
-                           FontSize="11"
-                           />
+                <Grid Width="100" 
+                      Height="30" 
+                      Margin="5,0"
+                      VerticalAlignment="Bottom"
+                      >
+                  <TextBlock Text="{TemplateBinding Content}"
+                             HorizontalAlignment="Center"
+                             TextWrapping="Wrap"
+                             VerticalAlignment="Center"
+                             TextAlignment="Center"
+                             FontSize="11"
+                             />
+                </Grid>
               </Grid>
-            </Canvas>
+            </Grid>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="rect" Property="Fill" Value="#FF96C0E6"/>
+                <Setter TargetName="inner" Property="Background" Value="#FF96C0E6"/>
               </Trigger>
               <Trigger Property="IsPressed" Value="True">
-                <Setter Property="RenderTransform">
+                <Setter Property="RenderTransform" TargetName="inner">
                   <Setter.Value>
                     <ScaleTransform ScaleX="0.96" ScaleY="0.96"/>
                   </Setter.Value>
                 </Setter>
-                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
