@@ -182,9 +182,10 @@
              Source="/MetroDesktop;component/Images/Winkhaus.gif" />
     </Canvas>
     
-    <TextBlock x:Name="lblError" Grid.Column="1" FontSize="14" Foreground="Red" FontWeight="Bold"
+    <TextBlock Grid.Column="1" FontSize="14" Foreground="Red" FontWeight="Bold"
                VerticalAlignment="Center" HorizontalAlignment="Left"
                Margin="5"
+               Text="{Binding ErrorText}"
                />
 
     <Grid Grid.Column="1" Grid.Row="1">
@@ -255,7 +256,7 @@
                         Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/Tools.png" 
                         Compact="{Binding Compact}"
-                        Click="Tools_Click" 
+                        Command="{Binding ToolsCommand}"
                         />
       </WrapPanel>
 

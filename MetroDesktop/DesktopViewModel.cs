@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Input;
 using System.Windows.Threading;
+using Okna.Plugins;
 
 namespace MetroDesktop
 {
@@ -15,6 +19,7 @@ namespace MetroDesktop
         private readonly string _connstring;
         private readonly Dictionary<string, string> _resources;
         private readonly DispatcherTimer _timer;
+        private readonly string _toolsFileName;
 
         public DesktopViewModel(Dictionary<string, string> data)
         {
@@ -27,8 +32,10 @@ namespace MetroDesktop
             this.Version = data["Version"];
             this.SmallInfoSize = 480;
             this.CommandPanelWidth = 360;
-
-            this.ShowToolsButton = System.IO.File.Exists(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\tools.exe");
+            _toolsFileName = Path.Combine(data["AppPath"], "tools.exe");
+            this.ShowToolsButton = File.Exists(_toolsFileName);
+            this.ToolsCommand = new RelayCommand(Tools);
+            
             LoadDocsInfo(firstRun: true);
 
             this.Mode = Convert.ToInt32(data["ProgramMode"]);
@@ -125,11 +132,6 @@ SELECT COUNT(*) AS DocsCount FROM oferty WHERE realizacja=@d+1 AND do_arch=0";
             }
             this.Database = conn.Database;
 
-            //using (OleDbCommand cmd = new OleDbCommand("SELECT db_id('Magazyn')", conn))
-            //{
-            //    this.ShowStoreButton = cmd.ExecuteScalar() != DBNull.Value;
-            //}
-
             string sql = @"SELECT 
 ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_OFERTY'), 0) AS Offer,
 ISNULL(IS_ROLEMEMBER('AUT_EDYCJA_ZLECENIA'), 0) AS Commission,
@@ -156,6 +158,20 @@ db_id('Magazyn') AS Store";
                 this.ShowDealerCommunicationButton = admin || dr.GetInt32(5) == 1;
                 this.ShowStoreButton = dr["Store"] != DBNull.Value;
                 this.ShowToolsButton &= admin;
+            }
+        }
+
+        private string _errorText = string.Empty;
+        public string ErrorText
+        {
+            get { return _errorText; }
+            set
+            {
+                if (_errorText != value)
+                {
+                    _errorText = value;
+                    OnPropertyChanged(nameof(ErrorText));
+                }
             }
         }
 
@@ -204,6 +220,8 @@ db_id('Magazyn') AS Store";
 
         public bool ShowToolsButton { get; private set; }
 
+        public ICommand ToolsCommand { get; private set; }
+
         public string Version { get; private set; }
 
         public string Server { get; private set; }
@@ -237,33 +255,33 @@ db_id('Magazyn') AS Store";
             get { return this.Compact ? 60 : 120; }
         }
 
-        private int _TomorrowDocs;
-        private int _TodayDocs;
-        private int _OldDocs;
+        private int _tomorrowDocs;
+        private int _todayDocs;
+        private int _oldDocs;
         public int TomorrowDocs 
         {
-            get { return _TomorrowDocs; }
+            get { return _tomorrowDocs; }
             private set
             {
-                _TomorrowDocs = value;
+                _tomorrowDocs = value;
                 OnPropertyChanged("TomorrowDocs");
             }
         }
         public int TodayDocs 
         {
-            get { return _TodayDocs; }
+            get { return _todayDocs; }
             private set
             {
-                _TodayDocs = value;
+                _todayDocs = value;
                 OnPropertyChanged("TodayDocs");
             }
         }
         public int OldDocs 
         {
-            get { return _OldDocs; }
+            get { return _oldDocs; }
             private set
             {
-                _OldDocs = value;
+                _oldDocs = value;
                 OnPropertyChanged("OldDocs");
             }
         }
@@ -288,9 +306,28 @@ db_id('Magazyn') AS Store";
         public int MinWidth { get; private set; }
         public int MinHeight { get; private set; }
 
-        public string ConnectionString
+        private void Tools(object param)
         {
-          get { return _connstring;  }
+            this.ErrorText = string.Empty;
+
+            try
+            {
+                var processInfo = new ProcessStartInfo(_toolsFileName);
+                processInfo.UseShellExecute = true;
+                processInfo.WorkingDirectory = new FileInfo(_toolsFileName).DirectoryName;
+                processInfo.Arguments = "\"" + _connstring + "\"";
+                if (Environment.OSVersion.Version.Major >= 6) // Windows Vista or higher
+                {
+                    // run as administrator
+                    processInfo.Verb = "runas";
+                }
+
+                Process.Start(processInfo);
+            }
+            catch (Exception ex)
+            {
+                this.ErrorText = ex.Message;
+            }
         }
 
         #region INotifyPropertyChanged Members

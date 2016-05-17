@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using MetroDesktop;
@@ -10,8 +9,7 @@ namespace WHDesktops
 {
     public partial class OknaDesk : UserControl, IMyWPFControl, IMyWPFEventSink
     {
-        private CommandNotification cn;
-        private string _connstring;
+        private CommandNotification _cn;
         private DesktopViewModel _viewmodel;
 
         public OknaDesk()
@@ -24,7 +22,6 @@ namespace WHDesktops
         public void Init(Dictionary<string, string> data)
         {
             _viewmodel = new MetroDesktop.DesktopViewModel(data);
-            _connstring = _viewmodel.ConnectionString;
             this.DataContext = _viewmodel;
 
             Nowa_oferta.Content = _viewmodel.GetResource("Offer").ToUpper();
@@ -45,7 +42,7 @@ namespace WHDesktops
             ipServer.Title = _viewmodel.GetResource("Server").ToUpper();
             ipDatabase.Title = _viewmodel.GetResource("Database").ToUpper();
 
-            lblError.Text = _viewmodel.GetResource("Error", string.Empty);
+            _viewmodel.ErrorText = _viewmodel.GetResource("Error", string.Empty);
         }
 
         public void OnActivate()
@@ -66,13 +63,13 @@ namespace WHDesktops
 
         event CommandNotification IMyWPFEventSink.RoutedCommandHandler
         {
-            add { cn = (CommandNotification)(Delegate.Combine(cn, value)); }
-            remove { cn = (CommandNotification)(Delegate.Remove(cn, value)); }
+            add { _cn = (CommandNotification)(Delegate.Combine(_cn, value)); }
+            remove { _cn = (CommandNotification)(Delegate.Remove(_cn, value)); }
         }
 
         void IMyWPFEventSink.SendNotification(string command, string type)
         {
-            if (cn != null) cn.Invoke(command, type);
+            if (_cn != null) _cn.Invoke(command, type);
         }
 
         #endregion
@@ -85,22 +82,6 @@ namespace WHDesktops
                 // dostupné příkazy (argument command) jsou v souboru WPFFormView.cpp v OKNA
                 ((IMyWPFEventSink)this).SendNotification(b.Name, "Event");
             }
-        }
-
-        private void Tools_Click(object sender, RoutedEventArgs e)
-        {
-            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            var ProcessInfo = new System.Diagnostics.ProcessStartInfo(path + "\\tools.exe");
-            ProcessInfo.UseShellExecute = true;
-            ProcessInfo.WorkingDirectory = path;
-            ProcessInfo.Arguments = "\"" + _connstring + "\"";
-            if (System.Environment.OSVersion.Version.Major >= 6) // Windows Vista or higher
-            {
-                //run as administrator
-                ProcessInfo.Verb = "runas";
-            }
-
-            Process.Start(ProcessInfo);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
