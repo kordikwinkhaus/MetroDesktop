@@ -269,7 +269,7 @@
                         Click="button_Click"
                         />
         <my:MetroButton x:Name="Tools" 
-                        Content="TOOLS" 
+                        Content="NÁSTROJE" 
                         Visibility="{Binding ShowToolsButton, Converter={StaticResource BooleanVisibilityConverter}}"
                         Image="/MetroDesktop;component/Images/Tools.png" 
                         Compact="{Binding Compact}"
