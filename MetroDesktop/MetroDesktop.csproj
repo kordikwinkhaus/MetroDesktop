@@ -57,12 +57,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Plugins\SharedCode\RelayCommand.cs">
-      <Link>RelayCommand.cs</Link>
-    </Compile>
     <Compile Include="BooleanVisibilityConverter.cs" />
     <Compile Include="InfoPanel.cs" />
     <Compile Include="MetroButton.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="ResourceReader.cs" />
     <Page Include="OknaDesk.xaml">
       <Generator>MSBuild:Compile</Generator>
