@@ -1,0 +1,51 @@
+﻿pipeline 
+{
+    agent any
+    
+    parameters {
+        string(defaultValue: '5.6.0.800', description: 'Verze WH Oken', name: 'WhoVerze')
+    }
+    
+    stages
+    {
+        stage('Checkout')
+        {
+            steps {
+                checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github-jenkins-ssh-key', url: 'https://github.com/kordikwinkhaus/MetroDesktop']]]
+            }
+        }
+    
+        stage('Prepare deps')
+        {
+            steps
+            {
+                bat "XCOPY D:\\publish\\whokna-doplnky\\pro-${params.WhoVerze}\\_Libs\\UserExtContract.dll \"%WORKSPACE%\\UserExt\\\" /Y"
+                bat "ECHO ${params.WhoVerze} > \"%WORKSPACE%\\WhoVersion.txt\""
+            }
+        }
+    
+        stage('Build') 
+        {
+            steps
+            {
+                bat "\"${tool 'MSBuild'}\" MetroDesktop.sln /p:Configuration=Release /t:Rebuild"
+                script {
+                    currentBuild.displayName += " " + params.WhoVerze
+                }
+            }
+        }
+    
+        stage('Publish')
+        {
+            steps{
+            bat """
+                python C:\\bin\\GetAssemblyVersion.py \"%WORKSPACE%\\MetroDesktop\\Properties\\AssemblyInfo.cs\" \"%WORKSPACE%\\AsmVersion.txt\" 3
+                set /p AsmVerze=<\"%WORKSPACE%\\AsmVersion.txt\"
+                
+                XCOPY \"%WORKSPACE%\\MetroDesktop\\bin\\Release\\MetroDesktop.dll\" \"D:\\publish\\whokna-doplnky\\pro-${params.WhoVerze}\\MetroDesktop_%AsmVerze%\\" /Y
+                XCOPY \"%WORKSPACE%\\MetroDesktop\\CS\\MetroDesktop.xml\" \"D:\\publish\\whokna-doplnky\\pro-${params.WhoVerze}\\MetroDesktop_%AsmVerze%\\CS\\\" /Y
+            """
+            }
+        }
+    }
+}
