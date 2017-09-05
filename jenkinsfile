@@ -19,7 +19,7 @@ pipeline
         {
             steps
             {
-				bat "C:\\bin\\alize\\Alize.ApiDownloader.exe okna_v56 ${params.WhoVerze} UserExtContract.dll \"%WORKSPACE%\\UserExt\\\""
+				bat "C:\\bin\\alize\\Alize.ApiDownloader.exe okna_v56 ${params.WhoVerze} UserExtContract.dll \"%WORKSPACE%\\UserExt\""
 				bat "ECHO ${params.WhoVerze} > \"%WORKSPACE%\\WhoVersion.txt\""
             }
         }
