@@ -8,13 +8,6 @@ pipeline
     
     stages
     {
-        stage('Checkout')
-        {
-            steps {
-                checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github-jenkins-ssh-key', url: 'https://github.com/kordikwinkhaus/MetroDesktop']]]
-            }
-        }
-    
         stage('Prepare deps')
         {
             steps
